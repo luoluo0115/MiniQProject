@@ -74,10 +74,11 @@ function fileBase64(file) { return new Promise((resolve, reject) => { const read
 
 async function submitUpload(event) {
   event.preventDefault();
+  const form = event.currentTarget; // 在 await 之前捕获：事件派发结束后 event.currentTarget 会变成 null
   if (!state.files.length) return toast('请至少选择一个文件');
   const button = event.submitter; button.disabled = true;
   try {
-    const fields = Object.fromEntries(new FormData(event.currentTarget));
+    const fields = Object.fromEntries(new FormData(form));
     const { batch } = await api('/api/admin/batches', { method: 'POST', body: JSON.stringify({ title: fields.title, expectedFiles: state.files.length }) });
     for (let index = 0; index < state.files.length; index++) {
       button.textContent = `正在上传 ${index + 1}/${state.files.length}`;
@@ -86,7 +87,7 @@ async function submitUpload(event) {
     }
     fields.topics = fields.topics.split(',').map(x => x.trim()).filter(Boolean);
     await api(`/api/admin/batches/${batch.id}/finalize`, { method: 'POST', body: JSON.stringify(fields) });
-    event.currentTarget.reset(); state.files = []; renderFiles(); toast('上传完成，已经进入处理队列'); switchView('jobs');
+    form.reset(); state.files = []; renderFiles(); toast('上传完成，已经进入处理队列'); switchView('jobs');
   } catch (error) { toast(error.message); }
   finally { button.disabled = false; button.textContent = '上传并开始解析'; }
 }
@@ -101,9 +102,23 @@ async function loadJobs() {
 function escapeHtml(value) { return String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]); }
 
 function renderLibrarySelection() {
-  const supported = state.libraryFiles.filter(file => /\.(pdf|epub|mp3|m4a|wav|mp4|mov|jpe?g|png|webp)$/i.test(file.name));
+  const box = $('#library-selection');
+  const all = state.libraryFiles;
+  if (!all.length) { box.className = 'library-selection'; box.textContent = '尚未选择文件夹'; return; }
+  const supportedRe = /\.(pdf|epub|mp3|m4a|wav|mp4|mov|jpe?g|png|webp)$/i;
+  const supported = all.filter(file => supportedRe.test(file.name));
+  const skipped = all.length - supported.length;
   const bytes = supported.reduce((sum, file) => sum + file.size, 0);
-  $('#library-selection').textContent = supported.length ? `已选择 ${supported.length} 个支持的文件，共 ${(bytes / 1024 / 1024).toFixed(1)} MB` : '尚未选择支持的文件';
+  const groups = new Map();
+  for (const file of supported) {
+    const segs = (file.webkitRelativePath || file.name).split('/');
+    const book = segs.length >= 3 ? segs[segs.length - 2] : segs.length === 2 ? segs[0] : '（根目录）';
+    groups.set(book, [...(groups.get(book) || []), file]);
+  }
+  box.className = 'library-selection has-files';
+  box.innerHTML = `
+    <div class="sel-head">已选择 <b>${supported.length}</b> 个文件 · 约 <b>${(bytes / 1024 / 1024).toFixed(1)} MB</b> · 预计拆分 <b>${groups.size}</b> 本书${skipped ? ` · <span class="sel-skip">${skipped} 个不支持已跳过</span>` : ''}</div>
+    <div class="sel-list">${[...groups].map(([name, files]) => `<div class="sel-book"><span class="sel-name">📁 ${escapeHtml(name)}</span><span class="sel-count">${files.length} 个文件</span></div>`).join('')}</div>`;
 }
 
 async function loadLibraries() {
@@ -113,24 +128,40 @@ async function loadLibraries() {
   } catch (error) { toast(error.message); }
 }
 
+function libError(message) { const node = $('#library-error'); if (!node) return; node.textContent = message || ''; node.classList.toggle('hidden', !message); }
+
 async function submitLibrary(event) {
-  event.preventDefault(); const supported = state.libraryFiles.filter(file => /\.(pdf|epub|mp3|m4a|wav|mp4|mov|jpe?g|png|webp)$/i.test(file.name));
-  if (!supported.length) return toast('请选择包含绘本或音视频的文件夹');
+  event.preventDefault();
+  const form = event.currentTarget; // 在 await 之前捕获：事件派发结束后 event.currentTarget 会变成 null
+  const supported = state.libraryFiles.filter(file => /\.(pdf|epub|mp3|m4a|wav|mp4|mov|jpe?g|png|webp)$/i.test(file.name));
+  if (!supported.length) return libError('请选择包含绘本、音频或视频的文件夹（当前没有可上传的支持文件）');
+  libError('');
   const button = event.submitter; button.disabled = true; const progress = $('#library-progress'); progress.style.display = 'block';
+  let library, stage = '创建导入记录', uploaded = 0;
   try {
-    const fields = Object.fromEntries(new FormData(event.currentTarget));
-    const { library } = await api('/api/admin/libraries', { method: 'POST', body: JSON.stringify({ ...fields, expectedFiles: supported.length }) });
+    const fields = Object.fromEntries(new FormData(form));
+    ({ library } = await api('/api/admin/libraries', { method: 'POST', body: JSON.stringify({ ...fields, expectedFiles: supported.length }) }));
+    await loadLibraries(); // 立即刷新，导入记录先出现
     for (let index = 0; index < supported.length; index++) {
-      const file = supported[index]; const percent = Math.round((index / supported.length) * 100);
-      progress.querySelector('i').style.width = `${percent}%`; progress.querySelector('span').textContent = `正在上传 ${index + 1}/${supported.length} · ${file.webkitRelativePath || file.name}`;
-      const relativePath = file.webkitRelativePath || file.name;
+      const file = supported[index]; const relativePath = file.webkitRelativePath || file.name;
+      stage = `上传「${relativePath}」`;
+      progress.querySelector('i').style.width = `${Math.round((index / supported.length) * 100)}%`;
+      progress.querySelector('span').textContent = `正在上传 ${index + 1}/${supported.length} · ${relativePath}`;
       await uploadRaw(`/api/admin/libraries/${library.id}/files/raw?relativePath=${encodeURIComponent(relativePath)}`, file);
+      uploaded++;
     }
+    stage = '自动拆分与匹配';
     progress.querySelector('i').style.width = '100%'; progress.querySelector('span').textContent = '正在自动拆分并匹配书籍…';
     const result = await api(`/api/admin/libraries/${library.id}/analyze`, { method: 'POST', body: '{}' });
-    toast(`分析完成：识别 ${result.library.detected_books} 本书`); state.libraryFiles = []; event.currentTarget.reset(); renderLibrarySelection(); await loadLibraries(); await openLibrary(library.id);
-  } catch (error) { toast(error.message); }
-  finally { button.disabled = false; progress.style.display = 'none'; }
+    toast(`分析完成：上传 ${uploaded} 个文件，识别 ${result.library.detected_books} 本书`);
+    state.libraryFiles = []; form.reset(); renderLibrarySelection();
+    await openLibrary(library.id);
+  } catch (error) {
+    libError(`「${stage}」出错：${error.message}（已上传 ${uploaded}/${supported.length}）`);
+  } finally {
+    button.disabled = false; progress.style.display = 'none';
+    await loadLibraries(); // 无论成败都刷新导入记录
+  }
 }
 
 async function openLibrary(id) {

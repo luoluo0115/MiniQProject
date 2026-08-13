@@ -61,11 +61,21 @@ function internalLevel(series, sourceLevel) {
 function titleFromPath(relativePath) {
   const extension = path.extname(relativePath);
   const parts = relativePath.slice(0, -extension.length).split('/');
+  const folders = parts.slice(0, -1).map(canonical);
+  // 约定「一本书一个子文件夹」（RAZ / 牛津树的常见结构）：优先用最深的具体子文件夹作为书本标识。
+  // 跳过用户选择的顶层根目录(folders[0])、通用桶(PDF/Audio/Video…)和纯级别目录。
+  const bookFolder = [...folders.slice(1)].reverse().find(value =>
+    value && !GENERIC.has(value)
+    && !/^(level|stage)?\s*(aa|z[12]|[a-z])$/i.test(value)
+    && !/^(level|stage)\s*[a-z0-9]+$/i.test(value));
+  if (bookFolder) return bookFolder;
+  // 回退：PDF/Audio/Video 分散在不同目录、共用文件名主体的情况，用文件名归组
+  // （剥离资源后缀与 RAZ 编码 raz/ld60/cqld56/wb/clr/ds/lblp/wksh）。
   let file = canonical(parts.at(-1))
     .replace(/\b(audio|narration|read aloud|readalong|read along|video|animation|animated|cover|ebook|book|story|track|english|with text)\b/g, ' ')
+    .replace(/\braz\b|\b(?:cq)?ld\d+[a-z]*\b|\bwb\b|\bclr\b|\bds\b|\blblp\b|\bwksh\b/g, ' ')
     .replace(/\b(mp3|mp4|pdf|epub)\b/g, ' ').replace(/\s+/g, ' ').trim();
-  const parents = parts.slice(0, -1).map(canonical).filter(Boolean);
-  const parent = [...parents].reverse().find(value => !GENERIC.has(value) && !/^(level|stage)\s*[a-z0-9]+$/i.test(value));
+  const parent = [...folders.slice(1)].reverse().find(value => value && !GENERIC.has(value));
   if (!file || GENERIC.has(file) || /^(page|track)?\s*\d+$/i.test(file)) file = parent || file;
   return file || canonical(path.basename(relativePath, extension));
 }
