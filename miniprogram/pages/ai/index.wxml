@@ -1,0 +1,28 @@
+<!-- AI 口语角 · 场景对话陪练 -->
+<view class="page">
+  <navbar title="AI 口语角"></navbar>
+
+  <!-- 向导头卡 -->
+  <view class="guide">
+    <view class="guide-avatar"><mascot type="partner" style="width:72rpx;height:72rpx"></mascot></view>
+    <view>
+      <view class="guide-name">小Q口语伙伴 · Sam</view>
+      <view class="guide-scene">{{scene}}</view>
+    </view>
+  </view>
+
+  <!-- 对话区 -->
+  <scroll-view scroll-y class="chat" scroll-into-view="{{intoView}}" scroll-with-animation enhanced show-scrollbar="{{false}}">
+    <view class="chat-inner">
+      <block wx:for="{{messages}}" wx:key="index">
+        <view id="msg{{index}}" class="bubble bubble-{{item.type}}">{{item.text}}</view>
+      </block>
+    </view>
+  </scroll-view>
+
+  <!-- 麦克风 -->
+  <view class="mic-bar">
+    <view class="mic {{listening ? 'mic-on' : ''}}" hover-class="pressed" bindtap="onMic">🎙️</view>
+    <view class="mic-hint">{{listening ? 'AI 聆听中…' : '按住说话 · 全双工 AI 响应 <1.5s'}}</view>
+  </view>
+</view>

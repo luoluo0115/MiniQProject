@@ -1,0 +1,123 @@
+<!-- 小Q首页 -->
+<view class="page">
+
+  <!-- 顶栏（自定义导航） -->
+  <view class="topbar" style="padding-top:{{statusBarH}}px">
+    <view class="topbar-inner">
+      <view class="city">上海市 <text class="chev">⌄</text></view>
+      <view class="logo">
+        <view class="logo-grid">
+          <text class="dot dot-grass"></text><text class="dot dot-sky"></text>
+          <text class="dot dot-sunny"></text><text class="dot dot-coral"></text>
+        </view>
+        <text class="logo-text">小Q</text>
+      </view>
+      <view class="capsule"><text>···</text><text class="cap-sep"></text><text>◎</text></view>
+    </view>
+  </view>
+
+  <scroll-view scroll-y class="scroller" enhanced show-scrollbar="{{false}}">
+
+    <!-- Hero 插画 Banner -->
+    <view class="section hero-wrap">
+      <view class="hero-card">
+        <image class="hero-img" src="{{heroSrc}}" mode="widthFix" />
+        <view class="hero-title">
+          <view class="hero-h1">今天和小Q学什么？</view>
+          <view class="hero-h2">每天 15 分钟，读懂、记住、敢开口</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 圆形图标九宫格 -->
+    <view class="section grid">
+      <view
+        class="grid-item"
+        wx:for="{{grid}}"
+        wx:key="type"
+        hover-class="pressed"
+        data-tip="{{item.tip}}"
+        data-page="{{item.page}}"
+        bindtap="onGridTap">
+        <view class="bubble bubble-{{item.type}}">
+          <mascot type="{{item.type}}" style="width:100%;height:100%" />
+        </view>
+        <view class="grid-label">{{item.label}}</view>
+      </view>
+    </view>
+
+    <!-- 每日任务卡 -->
+    <view class="section">
+      <view class="card plan-card">
+        <view class="plan-head">
+          <text class="plan-title">✨ 今日学习计划</text>
+          <text class="level-pill" bindtap="onToggleLevel">Level {{level}} ⇆</text>
+        </view>
+        <view class="plan-list">
+          <view
+            wx:for="{{plans}}"
+            wx:key="text">
+            <view class="plan-row" data-text="{{item.text}}" data-page="{{item.page}}" bindtap="onPlanTap">
+              <text class="plan-text">{{item.icon}} {{item.text}}</text>
+              <text class="plan-coin">🪙 +{{item.coin}}</text>
+            </view>
+            <view class="plan-reason" wx:if="{{item.reason}}">{{item.reason}}</view>
+          </view>
+        </view>
+        <button class="btn-start" bindtap="onStartLearn">开始今日学习 ▶</button>
+      </view>
+    </view>
+
+    <!-- 功能卡片横滑 -->
+    <view class="section">
+      <scroll-view scroll-x class="cards-scroll" enhanced show-scrollbar="{{false}}">
+        <view class="cards-row">
+          <view
+            class="fcard {{item.cls}}"
+            wx:for="{{cards}}"
+            wx:key="label"
+            hover-class="pressed"
+            data-label="{{item.label}}"
+            bindtap="onCardTap">
+            <text class="fcard-emoji">{{item.emoji}}</text>
+            <text class="fcard-tag">{{item.label}}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 品牌专区 -->
+    <view class="section">
+      <view class="brand" hover-class="pressed" bindtap="onBrandTap">
+        <view>
+          <view class="brand-title">品牌专区</view>
+          <view class="brand-sub">正版分级读物 · 学习装备</view>
+        </view>
+        <text class="brand-emoji">🎒🧸</text>
+      </view>
+    </view>
+
+    <view class="tab-spacer"></view>
+  </scroll-view>
+
+  <!-- 底部 Tab（含中间凸起会员码） -->
+  <view class="tabbar">
+    <view class="tab active" data-tab="home" bindtap="onTabTap">
+      <text class="tab-ico">🏠</text><text class="tab-txt">首页</text>
+    </view>
+    <view class="tab" data-tab="academy" bindtap="onTabTap">
+      <text class="tab-ico">🎓</text><text class="tab-txt">星学院</text>
+    </view>
+    <view class="tab tab-center" data-tab="code" bindtap="onTabTap">
+      <view class="tab-fab">▦</view>
+      <text class="tab-txt tab-txt-pink">会员码</text>
+    </view>
+    <view class="tab" data-tab="shop" bindtap="onTabTap">
+      <text class="tab-ico">👑</text><text class="tab-txt">商城</text>
+    </view>
+    <view class="tab" data-tab="me" bindtap="onTabTap">
+      <text class="tab-ico">💬</text><text class="tab-txt">我的</text>
+    </view>
+  </view>
+
+</view>

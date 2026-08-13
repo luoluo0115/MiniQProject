@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小学3-5年级英语学习微信小程序 - 全场景可点击高保真交互原型</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            skybg: '#B2D8F9',
+            warmfloor: '#E29D62',
+            shelf: '#F7C993'
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    .cloud-bg {
+      background-image: radial-gradient(circle at 50% 15%, #EBF5FF 0%, #B2D8F9 100%);
+    }
+
+    .wood-shelf {
+      background: linear-gradient(180deg, #FAD79E 0%, #EAA26A 100%);
+      border-top: 4px solid #FFF0C8;
+      box-shadow: 0 -4px 15px rgba(184, 102, 38, 0.25);
+    }
+
+    .ribbon-banner {
+      background: linear-gradient(135deg, #4A70E2, #2B46B0);
+      border: 2px solid #FFE082;
+    }
+
+    .card-shadow {
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .perspective-1000 {
+      perspective: 1000px;
+    }
+
+    .transform-style-3d {
+      transform-style: preserve-3d;
+    }
+
+    .backface-hidden {
+      backface-visibility: hidden;
+    }
+
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+
+    .view-page {
+      display: none;
+    }
+
+    .view-page.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body
+  class="bg-slate-900 min-h-screen flex flex-col items-center justify-center p-4 font-sans text-slate-800 antialiased select-none">
+
+  <div class="text-center mb-3 text-white">
+    <h1 class="text-xl font-bold text-amber-300 flex items-center justify-center gap-2">
+      <span>🚀</span> 英语智学星球 · 全场景可点击交互原型 <span>✨</span>
+    </h1>
+    <p class="text-xs text-slate-300 mt-0.5">点击首页任意卡片或图标，即可无缝跳转至对应的功能二级页面</p>
+  </div>
+
+  <!-- 375x812 竖屏 Phone Mockup -->
+  <div
+    class="w-[375px] h-[812px] cloud-bg rounded-[44px] shadow-2xl border-[10px] border-slate-800 flex flex-col overflow-hidden relative border-box">
+
+    <!-- 顶部微信小程序状态栏 -->
+    <div
+      class="px-4 pt-3 pb-2 flex justify-between items-center z-30 shrink-0 bg-skybg/90 backdrop-blur-sm border-b border-white/30">
+      <div class="flex items-center gap-2">
+        <button id="btn-back-home" onclick="navTo('view-home', 'RAZ 绘本馆 & 词汇星球')"
+          class="hidden bg-white/40 hover:bg-white/60 text-slate-800 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <span id="nav-page-title" class="font-black text-sm text-indigo-900 tracking-wide">RAZ 绘本馆 & 词汇星球</span>
+      </div>
+
+      <div
+        class="w-16 h-7 bg-black/20 backdrop-blur-md border border-white/20 rounded-full flex items-center justify-around px-2 text-white text-xs">
+        <i class="fa-solid fa-ellipsis"></i>
+        <span class="w-[1px] h-3 bg-white/30"></span>
+        <i class="fa-regular fa-circle"></i>
+      </div>
+    </div>
+
+    <div id="toast"
+      class="fixed top-12 left-1/2 -translate-x-1/2 bg-slate-900/90 text-white text-xs px-4 py-2 rounded-full shadow-2xl z-50 hidden transition">
+      提示信息</div>
+
+    <div id="modal"
+      class="absolute inset-0 bg-black/50 backdrop-blur-xs flex items-center justify-center z-50 hidden p-4">
+      <div class="bg-white rounded-3xl p-5 w-full max-w-[320px] text-center shadow-2xl border-2 border-amber-200"
+        id="modal-body"></div>
+    </div>
+
+    <!-- 页面视图区域 (SPA 模式) -->
+    <div class="flex-1 overflow-y-auto no-scrollbar relative">
+
+      <!-- VIEW 1: 竖屏卡通风首页 -->
+      <div id="view-home" class="view-page active p-3 space-y-3.5 pb-20">
+
+        <div class="bg-white/85 backdrop-blur-md rounded-2xl p-2.5 border border-white/60 shadow-sm">
+          <div class="grid grid-cols-5 gap-1 text-center">
+            <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition"
+              onclick="navTo('view-quiz', '每日趣味题库关卡')">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-2xl flex items-center justify-center text-white text-lg shadow-sm">
+                🧩</div>
+              <span class="text-[10px] font-bold text-slate-700 mt-1">拓展中心</span>
+            </div>
+            <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition"
+              onclick="navTo('view-reader', '磨耳朵听力播放器')">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-sky-400 to-blue-500 rounded-2xl flex items-center justify-center text-white text-lg shadow-sm">
+                🎧</div>
+              <span class="text-[10px] font-bold text-slate-700 mt-1">磨耳朵</span>
+            </div>
+            <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition"
+              onclick="navTo('view-vocab', '艾宾浩斯背单词')">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center text-white text-lg shadow-sm">
+                📖</div>
+              <span class="text-[10px] font-bold text-slate-700 mt-1">背单词</span>
+            </div>
+            <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition"
+              onclick="navTo('view-ai', 'AI 实时口语角')">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-rose-400 to-pink-500 rounded-2xl flex items-center justify-center text-white text-lg shadow-sm">
+                🤖</div>
+              <span class="text-[10px] font-bold text-slate-700 mt-1">AI口语角</span>
+            </div>
+            <div class="flex flex-col items-center cursor-pointer hover:scale-105 transition"
+              onclick="showToast('VIP 会员中心：全寒假狂欢礼包解封中！')">
+              <div
+                class="w-10 h-10 bg-gradient-to-br from-amber-400 to-rose-500 rounded-2xl flex items-center justify-center text-white text-lg shadow-sm">
+                👑</div>
+              <span class="text-[10px] font-bold text-amber-700 mt-1">VIP狂欢</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white/95 backdrop-blur-md rounded-2xl p-3 border-2 border-amber-200 shadow-md">
+          <div
+            class="bg-amber-100 border border-amber-300 rounded-xl px-3 py-1.5 flex items-center justify-between cursor-pointer"
+            onclick="showToast('已切换至 Grade 4 · Level AA')">
+            <span class="text-xs font-black text-amber-900">✨ Level AA (点击切换 ⇆)</span>
+            <span class="text-[10px] text-amber-700 font-bold">40/40 🪙</span>
+          </div>
+
+          <div class="my-2 space-y-1.5 text-xs">
+            <div class="flex justify-between items-center bg-slate-50 p-2 rounded-xl cursor-pointer"
+              onclick="navTo('view-reader', '绘本阅读器')">
+              <span class="font-bold text-slate-700">学习 1 本绘本</span>
+              <span class="text-amber-600 font-black">🪙 +40</span>
+            </div>
+            <div class="flex justify-between items-center bg-slate-50 p-2 rounded-xl cursor-pointer"
+              onclick="navTo('view-vocab', '艾宾浩斯背单词')">
+              <span class="font-medium text-slate-600">艾宾浩斯背单词 1 次</span>
+              <span class="text-amber-600 font-bold">🪙 +20</span>
+            </div>
+          </div>
+
+          <button onclick="navTo('view-quiz', '每日趣味题库关卡')"
+            class="w-full bg-gradient-to-r from-indigo-500 to-blue-600 text-white font-black text-xs py-2 rounded-xl shadow-md">
+            开始今日学习计划 ▶
+          </button>
+        </div>
+
+        <!-- 绘本与词汇木质书架区 (Carousel) -->
+        <div class="bg-white/90 backdrop-blur-md rounded-2xl p-3 border-2 border-amber-200 card-shadow">
+          <div class="text-xs font-black text-amber-900 mb-2.5">📚 绘本与词汇书架 (水平滑动)</div>
+          <div class="flex gap-3 overflow-x-auto no-scrollbar pb-1">
+            <div
+              class="w-32 h-[190px] bg-white rounded-2xl p-2 border-2 border-blue-400 card-shadow shrink-0 flex flex-col justify-between relative cursor-pointer group hover:scale-105 transition"
+              onclick="navTo('view-reader', '绘本阅读器 - Go, Go, Go')">
+              <span
+                class="bg-rose-500 text-white text-[8px] font-bold px-2 py-0.5 rounded-full absolute -top-2 left-1/2 -translate-x-1/2 shadow">📍
+                上次阅读</span>
+              <div class="w-full h-28 bg-rose-100 rounded-xl flex items-center justify-center text-4xl my-auto">🏎️
+              </div>
+              <div class="text-[11px] font-black text-slate-800 text-center truncate">Go, Go, Go</div>
+            </div>
+
+            <div
+              class="w-32 h-[180px] bg-white rounded-2xl p-2 border-2 border-amber-300 card-shadow shrink-0 flex flex-col justify-between relative cursor-pointer group hover:scale-105 transition"
+              onclick="navTo('view-reader', '绘本阅读器 - I Can Do It!')">
+              <div class="w-full h-26 bg-amber-100 rounded-xl flex items-center justify-center text-4xl my-auto">👧🧸
+              </div>
+              <div class="text-[11px] font-black text-slate-800 text-center truncate">I Can Do It!</div>
+            </div>
+
+            <div
+              class="w-32 h-[180px] bg-white rounded-2xl p-2 border-2 border-indigo-300 card-shadow shrink-0 flex flex-col justify-between relative cursor-pointer group hover:scale-105 transition"
+              onclick="navTo('view-vocab', '艾宾浩斯背单词')">
+              <div
+                class="w-full h-26 bg-indigo-50 rounded-xl flex flex-col items-center justify-center my-auto p-1 text-center">
+                <div class="text-2xl">🐘</div>
+                <div class="text-[11px] font-black text-indigo-900">elephant</div>
+              </div>
+              <div class="text-[11px] font-black text-indigo-800 text-center truncate">艾宾浩斯背单词</div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-3 border-2 border-amber-300 card-shadow flex items-center justify-between cursor-pointer"
+          onclick="showModal(`
+                    <div style='font-size: 15px; font-weight: bold; color: #B45309; margin-bottom: 8px;'>🏆 阶段学习复盘分析</div>
+                    <div style='font-size: 12px; color: #4A5568; margin-bottom: 12px;'>已阅读 <b>42 本</b>绘本，熟练掌握 <b>320 词</b>。</div>
+                    <button class='bg-amber-500 text-white font-bold text-xs py-2 rounded-xl w-full' onclick='closeModal()'>生成分析报告 📊</button>
+                `)">
+          <div class="flex items-center gap-3">
+            <div class="text-3xl animate-bounce">🥇</div>
+            <div>
+              <div class="text-xs font-black text-amber-900">阶段小结 🏆</div>
+              <div class="text-[10px] font-bold text-amber-700">已阅读 42 本 · 掌握 320 词</div>
+            </div>
+          </div>
+          <button class="bg-amber-500 text-white font-black text-[10px] px-3 py-1.5 rounded-xl shadow">查看分析</button>
+        </div>
+      </div>
+
+      <!-- VIEW 2: 绘本阅读器页面 -->
+      <div id="view-reader" class="view-page p-3 space-y-3 pb-20">
+        <div class="bg-white/95 rounded-2xl p-3 border-2 border-amber-200 card-shadow">
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-xs font-bold text-indigo-900">Level 2 - Little Monkey's Tree</span>
+            <span class="text-xs font-bold text-amber-600">页码: <span id="reader-page-num">3</span> / 10</span>
+          </div>
+
+          <div
+            class="w-full h-44 bg-emerald-100 rounded-2xl border border-emerald-200 flex items-center justify-center text-6xl shadow-inner mb-3">
+            🐒🌳</div>
+
+          <div class="bg-slate-50 border border-slate-200 rounded-2xl p-3 text-sm leading-relaxed text-slate-800">
+            The
+            <span class="px-1 py-0.5 rounded bg-amber-100 text-amber-900 font-bold cursor-pointer"
+              onclick="clickWord('little', 'adj. 小的', 'lit·tle')">little</span>
+            <span class="px-1 py-0.5 rounded bg-sky-200 text-blue-900 font-black underline cursor-pointer"
+              onclick="clickWord('monkey', 'n. 猴子', 'mon·key')">monkey</span>
+            is
+            <span class="px-1 py-0.5 rounded bg-amber-100 text-amber-900 font-bold cursor-pointer"
+              onclick="clickWord('climbing', 'v. 攀爬', 'climb·ing')">climbing</span>
+            a
+            <span class="px-1 py-0.5 rounded bg-amber-100 text-amber-900 font-bold cursor-pointer"
+              onclick="clickWord('tall', 'adj. 高的', 'tall')">tall</span>
+            <span class="px-1 py-0.5 rounded bg-amber-100 text-amber-900 font-bold cursor-pointer"
+              onclick="clickWord('tree', 'n. 树', 'tree')">tree</span>.
+          </div>
+
+          <div class="flex justify-between items-center mt-4">
+            <button onclick="changePage(-1)"
+              class="bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold">◄ 上一页</button>
+            <button onclick="simulateReadAlong()"
+              class="bg-emerald-500 text-white px-4 py-1.5 rounded-xl text-xs font-black shadow-md">🎙️ 录音跟读打分</button>
+            <button onclick="changePage(1)"
+              class="bg-indigo-500 text-white px-3 py-1.5 rounded-xl text-xs font-bold">下一页 ►</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 3: 艾宾浩斯背单词页面 -->
+      <div id="view-vocab" class="view-page p-3 space-y-3 pb-20">
+        <div
+          class="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-2xl p-3 flex justify-between items-center shadow-md">
+          <div>
+            <div class="text-xs opacity-90">今日艾宾浩斯复习流</div>
+            <div class="text-base font-black mt-0.5">待复习: 15 词 | 已复习: 5 词</div>
+          </div>
+          <span class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-bold">FSRS 算法</span>
+        </div>
+
+        <div class="perspective-1000 w-full h-[360px]">
+          <div id="flashcard" onclick="this.classList.toggle('rotate-y-180')"
+            class="transform-style-3d transition-transform duration-500 w-full h-full relative cursor-pointer">
+            <div
+              class="backface-hidden absolute inset-0 bg-white rounded-3xl border-2 border-indigo-200 p-5 flex flex-col items-center justify-between card-shadow">
+              <span class="bg-indigo-100 text-indigo-800 text-xs px-3 py-1 rounded-full font-bold self-end">Stage 3
+                (1天间隔)</span>
+              <div class="text-6xl my-2">🐘</div>
+              <div class="text-center">
+                <div class="text-3xl font-black text-slate-800">elephant</div>
+                <div class="bg-slate-100 text-slate-600 text-xs px-3 py-1 rounded-full mt-2 font-medium">自然拼读: el · e ·
+                  phant</div>
+              </div>
+              <div class="text-xs text-slate-400">点击卡片翻面看释义 👆</div>
+            </div>
+
+            <div
+              class="backface-hidden rotate-y-180 absolute inset-0 bg-slate-50 rounded-3xl border-2 border-teal-300 p-5 flex flex-col items-center justify-between card-shadow">
+              <div class="text-center mt-2">
+                <div class="text-2xl font-black text-teal-600">n. 大象</div>
+                <div class="text-xs text-slate-600 mt-3 font-medium bg-white p-2.5 rounded-xl border border-slate-200">
+                  The elephant has a long nose.</div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 w-full" onclick="event.stopPropagation();">
+                <button onclick="submitEval('🔴 忘记')"
+                  class="bg-rose-500 text-white py-2 rounded-xl text-xs font-bold">🔴 忘记 (5分)</button>
+                <button onclick="submitEval('🟡 困难')"
+                  class="bg-amber-500 text-white py-2 rounded-xl text-xs font-bold">🟡 困难 (12时)</button>
+                <button onclick="submitEval('🔵 良好')" class="bg-sky-500 text-white py-2 rounded-xl text-xs font-bold">🔵
+                  良好 (1天)</button>
+                <button onclick="submitEval('🟢 简单')"
+                  class="bg-emerald-500 text-white py-2 rounded-xl text-xs font-bold">🟢 简单 (2天)</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 4: AI 口语角页面 -->
+      <div id="view-ai" class="view-page p-3 space-y-3 pb-20">
+        <div class="bg-purple-100 border border-purple-200 rounded-2xl p-2.5 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-9 h-9 bg-purple-600 text-white rounded-full flex items-center justify-center text-lg">🦁</div>
+            <div>
+              <div class="text-xs font-bold text-purple-900">Zookeeper Sam</div>
+              <div class="text-[10px] text-purple-600">场景: At the Zoo (CEFR A1)</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-2.5" id="chat-messages">
+          <div
+            class="bg-purple-50 text-purple-900 p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] border border-purple-100">
+            🤖 "Welcome to the zoo! Look, I see a big lion. Do you like lions or pandas?"
+          </div>
+          <div
+            class="bg-emerald-100 text-emerald-900 p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] ml-auto border border-emerald-200">
+            👦 "I likes pandas, it are cute."
+          </div>
+          <div class="bg-amber-50 border border-amber-200 text-amber-900 p-2.5 rounded-xl text-[11px] leading-snug">
+            💡 <b>语法小助手卡片:</b><br>
+            你说了 <i>"I likes pandas"</i> $\rightarrow$ 建议说：<b>"I like pandas, they are cute."</b>
+          </div>
+        </div>
+
+        <div class="text-center pt-2">
+          <button onclick="triggerAiMic()"
+            class="w-16 h-16 bg-teal-500 text-white rounded-full text-2xl shadow-lg border-4 border-teal-200 mx-auto flex items-center justify-center">🎙️</button>
+          <div class="text-[10px] text-slate-500 mt-1.5">按住说话 (流式全双工 AI 响应 &lt;1.5s)</div>
+        </div>
+      </div>
+
+      <!-- VIEW 5: 游戏刷题页面 -->
+      <div id="view-quiz" class="view-page p-3 space-y-3 pb-20">
+        <div class="bg-white rounded-2xl p-3 border-2 border-orange-200 card-shadow space-y-3">
+          <div class="text-xs font-black text-orange-900">题型 1：图文匹配 (Image-Word Match)</div>
+          <div class="w-full h-24 bg-amber-100 rounded-xl flex items-center justify-center text-5xl">🍎</div>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="answerQuiz(this, false)"
+              class="bg-slate-100 text-slate-700 py-2.5 rounded-xl font-bold text-xs">banana</button>
+            <button onclick="answerQuiz(this, true)"
+              class="bg-slate-100 text-slate-700 py-2.5 rounded-xl font-bold text-xs">apple</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEW 6: 家长控制台页面 -->
+      <div id="view-parent" class="view-page p-3 space-y-3 pb-20">
+        <div class="bg-white rounded-2xl p-3 border-2 border-emerald-300 card-shadow space-y-3">
+          <div class="text-sm font-black text-emerald-900">👨‍👩‍👧 家长控制台 (Toto 家园)</div>
+          <div class="space-y-2 text-xs text-slate-600">
+            <div class="flex justify-between items-center bg-slate-50 p-2.5 rounded-xl">
+              <div>
+                <div class="font-bold text-slate-800">单次用眼保护 (20分钟)</div>
+                <div class="text-[10px] text-slate-400">强制 5 分钟眼保健操倒计时</div>
+              </div>
+              <input type="checkbox" checked class="w-4 h-4 accent-emerald-500">
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 底部固定木质地板底座 -->
+    <div class="wood-shelf px-4 py-2.5 flex justify-between items-center z-30 shrink-0 select-none">
+      <div
+        class="flex items-center gap-1.5 bg-slate-900/40 backdrop-blur-md px-3 py-1 rounded-full border border-amber-200/50 cursor-pointer hover:scale-105 transition"
+        onclick="showToast('打开个人中心 & 能量商店')">
+        <div class="relative">
+          <div
+            class="w-7 h-7 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-amber-300">
+            👾</div>
+          <span class="absolute -top-2 -left-1 text-[10px]">👑</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <span class="text-amber-300 text-xs">🪙</span>
+          <span class="text-xs font-black text-white tracking-wider">1351</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div
+          class="flex items-center gap-1 bg-white/30 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/40 cursor-pointer hover:scale-105 transition"
+          onclick="navTo('view-ai', 'AI 实时口语角 / 太空社区')">
+          <span class="text-sm">🛸</span>
+          <span class="text-[10px] font-black text-slate-800">太空社区</span>
+        </div>
+
+        <div
+          class="flex items-center gap-1 bg-emerald-400/40 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/40 cursor-pointer hover:scale-105 transition"
+          onclick="openParentPortal()">
+          <span class="text-sm">🐢</span>
+          <span class="text-[10px] font-black text-slate-800">Toto家园</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JS 逻辑 -->
+  <script>
+    function navTo(viewId, titleText) {
+      document.querySelectorAll('.view-page').forEach(el => el.classList.remove('active'));
+      document.getElementById(viewId).classList.add('active');
+      document.getElementById('nav-page-title').innerText = titleText;
+      const backBtn = document.getElementById('btn-back-home');
+      if (viewId === 'view-home') { backBtn.classList.add('hidden'); } else { backBtn.classList.remove('hidden'); }
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => { toast.classList.add('hidden'); }, 2200);
+    }
+
+    function showModal(contentHtml) {
+      const modal = document.getElementById('modal');
+      document.getElementById('modal-body').innerHTML = contentHtml;
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() { document.getElementById('modal').classList.add('hidden'); }
+
+    function changePage(delta) {
+      let pageEl = document.getElementById('reader-page-num');
+      let p = Math.max(1, Math.min(10, parseInt(pageEl.innerText) + delta));
+      pageEl.innerText = p;
+      showToast("已翻页至第 " + p + " 页");
+    }
+
+    function clickWord(word, trans, phonics) {
+      showModal(`
+                <div style="font-weight: bold; font-size: 18px; color: #2B6CB0; margin-bottom: 4px;">${word}</div>
+                <div style="font-size: 11px; color: #718096; margin-bottom: 8px;">音节拆解: ${phonics}</div>
+                <div style="font-size: 14px; font-weight: bold; margin-bottom: 12px; color: #2D3748;">${trans}</div>
+                <button class="bg-emerald-500 text-white font-bold text-xs py-2 rounded-xl w-full" onclick="closeModal(); showToast('已成功归入生词本！')">+ 加入生词本</button>
+            `);
+    }
+
+    function simulateReadAlong() {
+      showToast("🎙️ 正在跟读...");
+      setTimeout(() => {
+        showModal(`
+                    <div style="font-size: 16px; font-weight: bold; color: #2B6CB0; margin-bottom: 8px;">跟读得分: 88.5 分</div>
+                    <button class="bg-indigo-500 text-white font-bold text-xs py-2 rounded-xl w-full" onclick="closeModal()">太棒了 🌟</button>
+                `);
+      }, 1000);
+    }
+
+    function submitEval(grade) {
+      showToast("反馈: " + grade + "，算法已更新！");
+      setTimeout(() => { document.getElementById('flashcard').classList.remove('rotate-y-180'); }, 300);
+    }
+
+    function triggerAiMic() {
+      showToast("🔴 正在听说话...");
+      setTimeout(() => {
+        const container = document.getElementById('chat-messages');
+        const userMsg = document.createElement('div');
+        userMsg.className = 'bg-emerald-100 text-emerald-900 p-3 rounded-2xl text-xs leading-relaxed max-w-[85%] ml-auto border border-emerald-200';
+        userMsg.innerText = '👦 "I want see elephants."';
+        container.appendChild(userMsg);
+      }, 1000);
+    }
+
+    function answerQuiz(btnEl, isCorrect) {
+      if (isCorrect) {
+        btnEl.style.background = '#C6F6D5';
+        showToast("🎉 回答正确！Combo x5 连击！");
+      } else {
+        btnEl.style.background = '#FED7D7';
+        showToast("❌ 再试一次");
+      }
+    }
+
+    function openParentPortal() {
+      var pass = prompt("👨‍👩‍👧 进入 Toto 家园 (家长控制台)：\n请计算关卡答案：8 × 7 = ?");
+      if (pass === '56') { navTo('view-parent', '家长控制台与隐私合规'); } else if (pass !== null) { showToast("❌ 验证错误"); }
+    }
+  </script>
+</body>
+
+</html>

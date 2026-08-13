@@ -1,0 +1,33 @@
+<!-- 我的 · 探险家档案 -->
+<view class="page">
+  <navbar title="我的"></navbar>
+
+  <scroll-view scroll-y class="scroller" enhanced show-scrollbar="{{false}}">
+
+    <!-- 资料卡 -->
+    <view class="profile">
+      <view class="profile-left">
+        <view class="profile-avatar"><mascot type="me" style="width:88rpx;height:88rpx"></mascot></view>
+        <view>
+          <view class="profile-name">小小探险家 · Lv.{{profile.level}}</view>
+          <view class="profile-sub">🪙 {{profile.coin}} · 连续学习 {{profile.streak}} 天</view>
+        </view>
+      </view>
+      <view class="profile-shop" hover-class="pressed" bindtap="openShop">商城</view>
+    </view>
+
+    <!-- 成就徽章 -->
+    <view class="card">
+      <view class="card-title">🏅 我的成就徽章</view>
+      <view class="badges">
+        <view class="badge" wx:for="{{badges}}" wx:key="index">
+          <view class="badge-ico {{item.lock ? 'badge-lock' : item.cls}}">{{item.emoji}}</view>
+          <text class="badge-label {{item.lock ? 'label-lock' : ''}}">{{item.label}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="parent-btn" hover-class="pressed" bindtap="openParent">👨‍👩‍👧 家长控制台</view>
+    <view class="tail"></view>
+  </scroll-view>
+</view>

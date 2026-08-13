@@ -1,0 +1,2 @@
+<!-- 词豆 Wordlings · 吉祥物 -->
+<image class="mascot" src="{{src}}" mode="aspectFit" show-menu-by-longpress="{{false}}" />

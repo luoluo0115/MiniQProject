@@ -1,0 +1,8 @@
+/* 词豆 Wordlings · 吉祥物组件
+   尺寸由使用处在 <mascot> 标签上通过 style="width:..;height:.." 控制；
+   image 撑满宿主节点，aspectFit 保持圆豆比例不变形。 */
+.mascot {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

@@ -1,0 +1,5 @@
+data/
+.env
+content-library/*
+!content-library/.gitkeep
+!content-library/manifest.example.json

@@ -1,0 +1,98 @@
+/* AI 口语角 */
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #F5F6F8;
+}
+.pressed { transform: scale(.94); transition: transform .1s; }
+
+/* 向导头卡 */
+.guide {
+  margin: 20rpx 24rpx 0;
+  background: #FDF2F8;
+  border-radius: 40rpx;
+  padding: 22rpx;
+  display: flex;
+  align-items: center;
+  gap: 18rpx;
+  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+}
+.guide-avatar {
+  width: 84rpx;
+  height: 84rpx;
+  border-radius: 999rpx;
+  background: #FFEAD6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.guide-name { font-size: 28rpx; font-weight: 800; color: #2B2F38; }
+.guide-scene { font-size: 22rpx; color: #8A93A2; margin-top: 4rpx; }
+
+/* 对话区 */
+.chat { flex: 1; }
+.chat-inner {
+  padding: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+.bubble {
+  max-width: 85%;
+  padding: 22rpx;
+  font-size: 26rpx;
+  line-height: 1.6;
+  border-radius: 28rpx;
+}
+.bubble-ai {
+  align-self: flex-start;
+  background: #fff;
+  color: #2B2F38;
+  border-top-left-radius: 8rpx;
+  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+}
+.bubble-user {
+  align-self: flex-end;
+  background: linear-gradient(90deg, #4FC378, #10B981);
+  color: #fff;
+  border-top-right-radius: 8rpx;
+}
+.bubble-tip {
+  align-self: stretch;
+  max-width: 100%;
+  background: #FFFBEB;
+  border: 1rpx solid #FDE68A;
+  color: #78350F;
+  font-size: 22rpx;
+  line-height: 1.5;
+  border-radius: 24rpx;
+}
+
+/* 麦克风 */
+.mic-bar {
+  padding: 20rpx 0 calc(28rpx + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12rpx;
+  background: #F5F6F8;
+}
+.mic {
+  width: 128rpx;
+  height: 128rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #FF6FA5, #FF6B4A);
+  color: #fff;
+  font-size: 52rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10rpx 24rpx rgba(255, 107, 74, .35);
+}
+.mic-on { animation: pulse 1s ease-in-out infinite; }
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+.mic-hint { font-size: 22rpx; color: #8A93A2; }

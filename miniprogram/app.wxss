@@ -1,0 +1,22 @@
+/* 小Q · 全局样式 */
+page {
+  background: #F5F6F8;
+  color: #2B2F38;
+  font-family: -apple-system, "PingFang SC", "Noto Sans SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+view, text, button, scroll-view, image { box-sizing: border-box; }
+
+/* 品牌色板（供各页面 rpx 布局引用） */
+.c-ink   { color: #2B2F38; }
+.c-sub   { color: #8A93A2; }
+.c-coral { color: #FF6B4A; }
+.c-pinky { color: #FF6FA5; }
+.c-sky   { color: #4FB5F0; }
+.c-grass { color: #4FC378; }
+.c-sunny { color: #FFC93C; }
+.c-grape { color: #A77BEA; }
+
+.soft    { box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07); }
+.soft-lg { box-shadow: 0 10rpx 26rpx rgba(43, 47, 56, .10); }

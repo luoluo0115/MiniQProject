@@ -1,0 +1,24 @@
+.navbar {
+  background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(10rpx);
+  border-bottom: 1rpx solid #F1F2F4;
+}
+.navbar-inner {
+  height: 88rpx;
+  padding: 0 20rpx;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+.nav-back {
+  width: 56rpx;
+  height: 56rpx;
+  border-radius: 999rpx;
+  background: #F1F5F9;
+  color: #2B2F38;
+  font-size: 40rpx;
+  line-height: 52rpx;
+  text-align: center;
+}
+.nav-back-hover { background: #E2E8F0; }
+.nav-title { font-size: 32rpx; font-weight: 800; color: #2B2F38; }

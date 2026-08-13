@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>小Q内容管理台</title>
+  <link rel="stylesheet" href="/admin/styles.css">
+  <link rel="stylesheet" href="/admin/library.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark">Q</span><div><strong>小Q</strong><small>内容管理台</small></div></div>
+    <nav>
+      <button class="nav active" data-view="content"><span>▦</span>内容资源</button>
+      <button class="nav" data-view="library"><span>▤</span>整套书库导入</button>
+      <button class="nav" data-view="upload"><span>＋</span>上传内容</button>
+      <button class="nav" data-view="jobs"><span>↻</span>处理任务</button>
+    </nav>
+    <div class="sidebar-foot"><span class="online-dot"></span>本地服务已连接</div>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div><p class="eyebrow">CONTENT OPERATIONS</p><h1 id="page-title">内容资源</h1></div>
+      <div class="admin-auth"><label>管理口令<input id="admin-token" type="password" value="miniq-local-admin"></label><button id="refresh">刷新</button></div>
+    </header>
+
+    <section id="view-content" class="view active">
+      <div class="stats" id="stats"></div>
+      <div class="toolbar"><div class="tabs"><button class="filter active" data-status="">全部</button><button class="filter" data-status="pending">待审核</button><button class="filter" data-status="approved">已发布</button><button class="filter" data-status="rejected">已驳回</button></div><input id="search" placeholder="搜索内容名称"></div>
+      <div class="panel table-wrap"><table><thead><tr><th>内容</th><th>类型</th><th>级别</th><th>版权</th><th>状态</th><th>更新时间</th><th></th></tr></thead><tbody id="content-list"></tbody></table><div id="content-empty" class="empty">还没有内容，先上传第一套资源吧。</div></div>
+    </section>
+
+    <section id="view-library" class="view">
+      <div class="library-intro panel"><div><p class="eyebrow">BULK LIBRARY IMPORT</p><h2>整套书库自动整理</h2><p>直接选择 RAZ F、RAZ H 或牛津树整个目录。系统保留目录结构，自动拆分每本书并匹配文档、音频、动画和封面。</p></div><div class="library-badges"><span>RAZ AA–Z2</span><span>Oxford Stage 1–12</span></div></div>
+      <div class="library-layout">
+        <form id="library-form" class="panel form-panel"><div class="form-grid"><label class="wide">书库名称<input name="name" required placeholder="例如：RAZ Level H 全套"></label><label>系列提示<select name="seriesHint"><option value="">自动识别</option><option value="RAZ">RAZ / Reading A-Z</option><option value="Oxford Reading Tree">Oxford Reading Tree</option><option value="Other">其他系列</option></select></label><label>级别提示<input name="levelHint" placeholder="例如 H 或 5"></label></div><label class="dropzone library-drop" id="library-dropzone"><input id="library-files" type="file" webkitdirectory directory multiple><strong>选择整套资源文件夹</strong><small>无需重新整理，系统会读取各级子目录；支持文档、音频、视频和图片</small></label><div class="library-selection" id="library-selection">尚未选择文件夹</div><div class="upload-progress" id="library-progress"><i></i><span></span></div><button class="primary submit" type="submit">上传整套并自动分析</button></form>
+        <aside class="panel import-history"><div class="panel-head"><div><h2>导入记录</h2><p>点击查看自动拆书结果和异常项。</p></div><button type="button" id="libraries-refresh">刷新</button></div><div id="library-list"></div></aside>
+      </div>
+      <div id="library-report" class="panel library-report hidden"><div class="panel-head"><div><h2 id="report-title">导入报告</h2><p id="report-subtitle"></p></div><div class="report-actions"><select id="bulk-copyright"><option value="owned">自有版权</option><option value="licensed">已获授权</option><option value="public_domain">公版</option></select><button class="primary" id="approve-confident">批量发布高置信度绘本</button></div></div><div id="report-stats" class="stats report-stats"></div><div class="report-toolbar"><button class="report-filter active" data-book-status="">全部</button><button class="report-filter" data-book-status="matched">高置信度</button><button class="report-filter" data-book-status="needs_review">待确认</button><button class="report-filter" data-book-status="approved">已发布</button></div><div class="table-wrap"><table><thead><tr><th>识别书名</th><th>系列 / 原级别</th><th>匹配资源</th><th>置信度</th><th>判断</th><th></th></tr></thead><tbody id="library-books"></tbody></table></div></div>
+    </section>
+
+    <section id="view-upload" class="view">
+      <div class="upload-layout">
+        <form id="upload-form" class="panel form-panel">
+          <div class="section-title"><span>1</span><div><h2>内容信息</h2><p>系统会先自动判断，之后仍可在审核页修改。</p></div></div>
+          <div class="form-grid"><label class="wide">内容名称<input name="title" required placeholder="例如：Hello Animals"></label><label>内容类型<select name="contentType"><option value="">自动识别</option><option value="book">绘本</option><option value="audio">音频</option><option value="video">动画</option></select></label><label>Level<select name="level"><option value="">自动识别</option><option>A</option><option>B</option><option>C</option><option>D</option></select></label><label>预计时长（分钟）<input name="estimatedMinutes" type="number" min="1" max="120"></label><label>版权状态<select name="copyrightStatus"><option value="unverified">待确认</option><option value="owned">自有版权</option><option value="licensed">已获授权</option><option value="public_domain">公版</option></select></label><label class="wide">主题标签<input name="topics" placeholder="animals, family"></label><label class="wide">内容说明<textarea name="description" rows="3" placeholder="适合年龄、内容简介等"></textarea></label></div>
+          <div class="section-title files-title"><span>2</span><div><h2>上传文件</h2><p>把同一套绘本、配音、动画和封面放在一个批次中。</p></div></div>
+          <label class="dropzone" id="dropzone"><input id="files" type="file" multiple accept=".pdf,.epub,.mp3,.m4a,.wav,.mp4,.mov,.jpg,.jpeg,.png,.webp"><strong>拖拽文件到这里，或点击选择</strong><small>支持绘本、音频、视频和封面；MVP 单文件不超过 25MB</small></label>
+          <div id="file-list" class="file-list"></div>
+          <button class="primary submit" type="submit">上传并开始解析</button>
+        </form>
+        <aside class="guide panel"><h3>自动处理流程</h3><ol><li><b>文件校验与去重</b><span>按内容校验和识别重复文件</span></li><li><b>类型和 Level 分类</b><span>根据清单、文件名及类型生成初始结果</span></li><li><b>资源自动关联</b><span>绘本、音频、动画归入同一内容包</span></li><li><b>进入人工审核</b><span>确认版权和信息后才能发布给孩子</span></li></ol><div class="notice">OCR、语音转写和时间轴对齐已经预留处理节点，配置对应服务后即可启用。</div></aside>
+      </div>
+    </section>
+
+    <section id="view-jobs" class="view"><div class="panel"><div class="panel-head"><div><h2>处理任务</h2><p>上传、解析、入库过程中出现问题可在这里重试。</p></div><button id="jobs-refresh">刷新任务</button></div><div id="job-list" class="jobs"></div></div></section>
+  </main>
+
+  <dialog id="detail-dialog"><div class="dialog-head"><div><p class="eyebrow">CONTENT REVIEW</p><h2>审核内容</h2></div><button class="close" data-close>×</button></div><form id="detail-form"><input name="id" type="hidden"><div class="detail-layout"><div><div id="preview" class="preview"></div><div id="assets" class="assets"></div></div><div class="form-grid"><label class="wide">内容名称<input name="title" required></label><label>内容类型<select name="contentType"><option value="book">绘本</option><option value="audio">音频</option><option value="video">动画</option><option value="speaking_scene">口语场景</option></select></label><label>Level<input name="level"></label><label>预计分钟<input name="estimatedMinutes" type="number"></label><label>版权状态<select name="copyrightStatus"><option value="unverified">待确认</option><option value="owned">自有版权</option><option value="licensed">已获授权</option><option value="public_domain">公版</option></select></label><label class="wide">主题标签<input name="topics"></label><label class="wide">内容说明<textarea name="description" rows="4"></textarea></label></div></div><div class="dialog-actions"><button type="button" class="danger" id="reject">驳回</button><span></span><button type="submit">保存修改</button><button type="button" class="primary" id="approve">审核并发布</button></div></form></dialog>
+  <dialog id="book-dialog"><div class="dialog-head"><div><p class="eyebrow">MATCH REVIEW</p><h2>确认单本匹配</h2></div><button class="close" data-close-book>×</button></div><form id="book-form"><input name="id" type="hidden"><div class="book-review"><div class="form-grid"><label class="wide">识别书名<input name="title" required></label><label>原书库级别<input name="sourceLevel"></label><label>小Q内部级别<input name="internalLevel"></label></div><div><h3>已匹配文件</h3><div id="book-files" class="assets"></div></div></div><div class="dialog-actions"><button type="button" class="danger" id="book-reject">标记异常</button><span></span><button type="submit">保存确认结果</button><button type="button" class="primary" id="book-approve">发布这一本</button></div></form></dialog>
+  <div id="toast" role="status"></div>
+  <script src="/admin/app.js"></script>
+</body>
+</html>

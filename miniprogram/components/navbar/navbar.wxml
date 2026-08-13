@@ -1,0 +1,6 @@
+<view class="navbar" style="padding-top:{{statusBarH}}px">
+  <view class="navbar-inner">
+    <view class="nav-back" hover-class="nav-back-hover" bindtap="onBack">‹</view>
+    <text class="nav-title">{{title}}</text>
+  </view>
+</view>

@@ -1,0 +1,146 @@
+/* 背单词 · FSRS 翻卡 */
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #F5F6F8;
+}
+.scroller { flex: 1; }
+.tail { height: 40rpx; }
+
+/* FSRS 头卡 */
+.head-card {
+  margin: 24rpx;
+  border-radius: 40rpx;
+  padding: 28rpx;
+  background: linear-gradient(90deg, #A77BEA, #6366F1);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+}
+.head-label { font-size: 22rpx; opacity: .9; }
+.head-stat { font-size: 32rpx; font-weight: 800; margin-top: 6rpx; }
+.head-badge {
+  background: rgba(255, 255, 255, .25);
+  font-size: 22rpx;
+  font-weight: 700;
+  padding: 8rpx 20rpx;
+  border-radius: 999rpx;
+}
+
+/* 翻转闪卡 */
+.flip-wrap {
+  margin: 8rpx 24rpx 0;
+  height: 640rpx;
+  perspective: 1600rpx;
+}
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform .5s;
+}
+.flip-card.is-flipped { transform: rotateY(180deg); }
+.face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background: #fff;
+  border-radius: 40rpx;
+  padding: 40rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+}
+.face-back {
+  transform: rotateY(180deg);
+  border: 3rpx solid rgba(79, 195, 120, .3);
+}
+
+/* 正面 */
+.stage-pill {
+  align-self: flex-end;
+  background: rgba(167, 123, 234, .12);
+  color: #A77BEA;
+  font-size: 22rpx;
+  font-weight: 700;
+  padding: 8rpx 22rpx;
+  border-radius: 999rpx;
+}
+.card-emoji { font-size: 120rpx; }
+.front-mid { text-align: center; }
+.card-word { font-size: 68rpx; font-weight: 800; color: #2B2F38; }
+.phonics-pill {
+  display: inline-block;
+  background: #F1F5F9;
+  color: #8A93A2;
+  font-size: 22rpx;
+  padding: 8rpx 22rpx;
+  border-radius: 999rpx;
+  margin-top: 16rpx;
+}
+.flip-hint { font-size: 22rpx; color: #8A93A2; }
+
+/* 背面 */
+.back-mid { text-align: center; margin-top: 24rpx; }
+.card-mean { font-size: 44rpx; font-weight: 800; color: #4FC378; }
+.card-example {
+  font-size: 26rpx;
+  color: #8A93A2;
+  margin-top: 24rpx;
+  background: #F8FAFC;
+  padding: 20rpx;
+  border-radius: 24rpx;
+}
+.eval-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+.eval-btn {
+  padding: 22rpx 0;
+  border-radius: 24rpx;
+  font-size: 24rpx;
+  font-weight: 800;
+  text-align: center;
+  color: #fff;
+}
+.ev-forget { background: #FF6B4A; }
+.ev-hard { background: #FFC93C; color: #2B2F38; }
+.ev-good { background: #4FB5F0; }
+.ev-easy { background: #4FC378; }
+
+/* 单词图鉴 */
+.atlas {
+  margin: 24rpx;
+  background: #fff;
+  border-radius: 40rpx;
+  padding: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+}
+.atlas-left { display: flex; align-items: center; gap: 18rpx; }
+.atlas-emoji { font-size: 48rpx; }
+.atlas-title { font-size: 28rpx; font-weight: 800; color: #2B2F38; }
+.atlas-sub { font-size: 22rpx; color: #8A93A2; margin-top: 4rpx; }
+.atlas-bar {
+  width: 180rpx;
+  height: 16rpx;
+  background: #F1F5F9;
+  border-radius: 999rpx;
+  overflow: hidden;
+}
+.atlas-fill { height: 100%; background: #A77BEA; }
+.export-actions { margin: 0 24rpx 24rpx; display: flex; gap: 16rpx; }
+.export-btn { flex: 1; margin: 0; border: 2rpx solid #A77BEA; color: #7656D6; background: #fff; border-radius: 22rpx; font-size: 24rpx; }
+.export-btn.primary { color: #fff; background: #7656D6; }
+.export-btn::after { border: 0; }

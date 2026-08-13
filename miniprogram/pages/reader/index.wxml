@@ -1,0 +1,75 @@
+<!-- 星学院 · 绘本阅读器 -->
+<view class="page">
+  <navbar title="星学院"></navbar>
+
+  <scroll-view scroll-y class="scroller" enhanced show-scrollbar="{{false}}">
+
+    <!-- 分级筛选 -->
+    <scroll-view scroll-x class="levels" enhanced show-scrollbar="{{false}}">
+      <view class="levels-row">
+        <view
+          wx:for="{{levels}}"
+          wx:key="key"
+          class="level-chip {{level === item.key ? 'level-on' : ''}} {{item.key === 'ear' ? 'level-ear' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="onSwitchLevel">{{item.label}}</view>
+      </view>
+    </scroll-view>
+
+    <!-- 阅读器卡 -->
+    <view class="reader-card">
+      <view class="reader-head">
+        <text class="book-title">{{book.title}}</text>
+        <text class="book-page">p.{{book.page}} / {{book.total}}</text>
+      </view>
+
+      <view class="book-art">{{book.art}}</view>
+
+      <view class="sentence">
+        <block wx:for="{{tokens}}" wx:key="index">
+          <text
+            wx:if="{{item.w}}"
+            class="word word-{{item.hl}}"
+            data-i="{{index}}"
+            bindtap="onWordTap">{{item.t}}</text>
+          <text wx:else>{{item.t}}</text>
+        </block>
+      </view>
+
+      <view class="reader-btns">
+        <view class="rbtn rbtn-gray" data-d="-1" bindtap="changePage">◄ 上一页</view>
+        <view class="rbtn rbtn-read" bindtap="readAlong">🎙️ 跟读打分</view>
+        <view class="rbtn rbtn-next" data-d="1" bindtap="changePage">下一页 ►</view>
+      </view>
+    </view>
+
+    <view class="reader-hint">点亮的单词可点开查词，一键收进生词本 👆</view>
+    <view class="tail"></view>
+  </scroll-view>
+
+  <!-- 查词弹窗 -->
+  <view wx:if="{{wordModal}}" class="mask" bindtap="closeWordModal">
+    <view class="modal" catchtap="noop">
+      <view class="w-word">{{word.t}}</view>
+      <view class="w-ph">音节拆解：{{word.ph}}</view>
+      <view class="w-mean">{{word.mean}}</view>
+      <view class="modal-btn modal-btn-grass" bindtap="addToWordbook">+ 加入生词本</view>
+    </view>
+  </view>
+
+  <!-- 跟读评分结果 -->
+  <view wx:if="{{scoreModal}}" class="mask" bindtap="closeScore">
+    <view class="modal" catchtap="noop">
+      <view class="score-mascot"><mascot type="cheer" style="width:160rpx;height:160rpx"></mascot></view>
+      <view class="score-num">跟读得分 88.5 🌟</view>
+      <view class="score-sub">发音清晰！解锁徽章 🏅 猴子攀树家</view>
+      <view class="modal-btn modal-btn-coral" bindtap="closeScore">太棒了！</view>
+    </view>
+  </view>
+
+  <!-- 跟读 loading -->
+  <view wx:if="{{loading}}" class="loading-mask">
+    <mascot type="hero" face="sleepy" style="width:150rpx;height:150rpx"></mascot>
+    <view class="loading-msg">跟读评分中…</view>
+  </view>
+</view>

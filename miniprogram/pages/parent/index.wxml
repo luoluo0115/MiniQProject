@@ -1,0 +1,39 @@
+<!-- 家长控制台 -->
+<view class="page">
+  <navbar title="家长控制台"></navbar>
+
+  <scroll-view scroll-y class="scroller" enhanced show-scrollbar="{{false}}">
+
+    <!-- 管控开关 -->
+    <view class="card">
+      <view class="card-title">👨‍👩‍👧 家长控制台</view>
+      <view class="ctrl-row">
+        <view class="ctrl-text">
+          <view class="ctrl-name">用眼保护 · 20 分钟</view>
+          <view class="ctrl-sub">到点强制 5 分钟眼保健操倒计时</view>
+        </view>
+        <switch checked="{{eyeCare}}" color="#4FC378" bindchange="toggleEye" />
+      </view>
+      <view class="ctrl-row">
+        <view class="ctrl-text">
+          <view class="ctrl-name">每日时长上限 · 30 分钟</view>
+          <view class="ctrl-sub">超时仅保留复习，暂停新内容</view>
+        </view>
+        <switch checked="{{dailyLimit}}" color="#4FC378" bindchange="toggleLimit" />
+      </view>
+    </view>
+
+    <!-- 周报 -->
+    <view class="card">
+      <view class="card-title">📊 本周学习报告</view>
+      <view class="report">
+        <view class="stat {{item.cls}}" wx:for="{{report}}" wx:key="label">
+          <view class="stat-num">{{item.num}}</view>
+          <view class="stat-label">{{item.label}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="tail"></view>
+  </scroll-view>
+</view>

@@ -1,0 +1,12 @@
+.library-intro{padding:25px 28px;display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;background:linear-gradient(135deg,#fff,#f3f0ff)}
+.library-intro h2{font-size:25px;margin:2px 0}.library-intro p{margin:5px 0;color:var(--sub)}
+.library-badges{display:flex;gap:8px}.library-badges span{background:#ede9ff;color:var(--purple);padding:7px 11px;border-radius:99px;font-size:12px;font-weight:800}
+.library-layout{display:grid;grid-template-columns:minmax(420px,1fr) minmax(360px,.85fr);gap:18px}.library-drop{margin-top:20px;min-height:180px}
+.library-selection{padding:12px 2px;color:var(--sub)}.upload-progress{position:relative;height:22px;border-radius:99px;background:#edf0f8;overflow:hidden;display:none}
+.upload-progress i{display:block;height:100%;background:linear-gradient(90deg,var(--purple),var(--blue));width:0}.upload-progress span{position:absolute;inset:0;text-align:center;font-size:11px;font-weight:800;line-height:22px}
+.import-history{overflow:hidden;height:max-content}.import-row{padding:14px 20px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:1fr auto;gap:10px;cursor:pointer}.import-row:hover{background:#fafbff}.import-row small{display:block;color:var(--sub)}
+.library-report{margin-top:18px;overflow:hidden}.hidden{display:none}.report-stats{padding:18px;margin:0}.report-toolbar{display:flex;gap:7px;padding:0 20px 14px}.report-filter.active{color:white;background:var(--purple);border-color:var(--purple)}
+.report-actions{display:flex;gap:8px}.confidence{font-weight:900;color:var(--purple)}.asset-tags{display:flex;gap:4px;flex-wrap:wrap}.asset-tags span{font-size:11px;background:#f0f3fa;padding:3px 6px;border-radius:6px}
+.book-review{display:grid;grid-template-columns:1fr 1fr;gap:25px;padding:25px 28px}.book-review h3{margin-top:0}
+@media(max-width:900px){.library-layout,.book-review{grid-template-columns:1fr}.library-intro{align-items:start}.library-badges{display:none}}
+@media(max-width:600px){.report-actions{display:grid}.library-intro{padding:20px}.report-toolbar{overflow-x:auto}}

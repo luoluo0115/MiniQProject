@@ -1,0 +1,45 @@
+<!-- 趣味闯关 · 图文匹配 -->
+<view class="page">
+  <navbar title="趣味闯关"></navbar>
+
+  <scroll-view scroll-y class="scroller" enhanced show-scrollbar="{{false}}">
+
+    <!-- 闯关进行中 -->
+    <block wx:if="{{!done}}">
+      <view class="quiz-head">
+        <text class="quiz-title">🧩 图文匹配闯关</text>
+        <text class="quiz-combo">🔥 连击 x{{combo}}</text>
+      </view>
+
+      <view class="q-card">
+        <view class="q-art">{{q.art}}</view>
+        <view class="q-options">
+          <view
+            wx:for="{{options}}"
+            wx:key="label"
+            class="opt opt-{{item.state}}"
+            data-i="{{index}}"
+            bindtap="onAnswer">{{item.label}}</view>
+        </view>
+      </view>
+
+      <view class="prog-card">
+        <view class="prog-head">
+          <text class="prog-title">关卡进度 · 果园采集家</text>
+          <text class="prog-num">{{step}} / {{total}}</text>
+        </view>
+        <view class="prog-bar"><view class="prog-fill" style="width:{{percent}}%"></view></view>
+      </view>
+    </block>
+
+    <!-- 通关态 -->
+    <view wx:else class="done-card">
+      <view class="done-mascot"><mascot type="cheer" style="width:220rpx;height:220rpx"></mascot></view>
+      <view class="done-title">今日关卡已通关！</view>
+      <view class="done-sub">明天再来词野继续探险 🌱</view>
+      <view class="done-sub">解锁徽章 🏅 果园采集家</view>
+      <view class="done-btn" bindtap="backHome">回首页</view>
+    </view>
+
+  </scroll-view>
+</view>

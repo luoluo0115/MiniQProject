@@ -1,0 +1,23 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/reader/index",
+    "pages/vocab/index",
+    "pages/ai/index",
+    "pages/quiz/index",
+    "pages/me/index",
+    "pages/parent/index"
+  ],
+  "window": {
+    "navigationStyle": "custom",
+    "backgroundColor": "#F5F6F8",
+    "backgroundTextStyle": "dark",
+    "navigationBarTextStyle": "black"
+  },
+  "usingComponents": {
+    "mascot": "/components/mascot/mascot",
+    "navbar": "/components/navbar/navbar"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

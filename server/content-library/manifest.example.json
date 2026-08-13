@@ -1,0 +1,15 @@
+{
+  "contentKey": "owned:hello-animals",
+  "title": "Hello Animals",
+  "contentType": "book",
+  "language": "en",
+  "level": "A",
+  "cefrLevel": "Pre-A1",
+  "estimatedMinutes": 6,
+  "topics": ["animals"],
+  "skills": ["listening", "reading"],
+  "copyrightStatus": "owned",
+  "reviewStatus": "approved",
+  "description": "示例绘本资源包"
+}
+
