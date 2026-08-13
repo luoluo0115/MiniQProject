@@ -1,6 +1,6 @@
 <!-- 背单词 · 艾宾浩斯 FSRS 翻卡 -->
 <view class="page">
-  <navbar title="艾宾浩斯背单词"></navbar>
+  <navbar title="艾宾浩斯背单词" />
 
   <scroll-view scroll-y class="scroller" enhanced show-scrollbar="{{false}}">
 
@@ -10,11 +10,11 @@
         <view class="head-label">今日艾宾浩斯复习流</view>
         <view class="head-stat">待复习 {{due}} · 已复习 {{done}}</view>
       </view>
-      <view class="head-badge">艾宾浩斯</view>
+      <view class="head-badge">FSRS</view>
     </view>
 
     <!-- 翻转闪卡 -->
-    <view class="flip-wrap">
+    <view class="flip-wrap" wx:if="{{!finished}}">
       <view class="flip-card {{flipped ? 'is-flipped' : ''}}" bindtap="flip">
         <!-- 正面 -->
         <view class="face face-front">
@@ -30,7 +30,7 @@
         <view class="face face-back">
           <view class="back-mid">
             <view class="card-mean">{{card.mean}}</view>
-            <view class="card-example">{{card.example}}</view>
+            <view class="card-example" wx:if="{{card.example}}">{{card.example}}</view>
           </view>
           <view class="eval-grid">
             <view
@@ -44,18 +44,26 @@
       </view>
     </view>
 
+    <!-- 完成态 -->
+    <view class="done-card anim-pop" wx:else>
+      <mascot type="cheer" face="wow" style="width:180rpx;height:180rpx" />
+      <view class="done-title">今日复习完成！</view>
+      <view class="done-sub">复习 {{done}} 个单词，记忆更牢固啦 🎉</view>
+      <view class="done-btn" bindtap="restart">再来一组</view>
+    </view>
+
     <view class="export-actions">
       <button class="export-btn" bindtap="onExport">下载单词表 CSV</button>
       <button class="export-btn primary" bindtap="onPrint">打印 / 保存 PDF</button>
     </view>
 
     <!-- 单词图鉴进度 -->
-    <view class="atlas">
+    <view class="atlas" hover-class="pressed" bindtap="onAtlas">
       <view class="atlas-left">
         <text class="atlas-emoji">📔</text>
         <view>
           <view class="atlas-title">单词图鉴</view>
-          <view class="atlas-sub">已收集 {{collected}} / {{total}}</view>
+          <view class="atlas-sub">已收集 {{collected}} / {{total}} ›</view>
         </view>
       </view>
       <view class="atlas-bar"><view class="atlas-fill" style="width:{{percent}}%"></view></view>

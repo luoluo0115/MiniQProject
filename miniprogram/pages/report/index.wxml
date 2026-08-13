@@ -1,0 +1,51 @@
+<!-- 成长报告 -->
+<view class="q-page">
+  <navbar title="成长报告" />
+
+  <!-- 头部指标 -->
+  <view class="section">
+    <view class="hero">
+      <view class="hero-streak">
+        <view class="hero-num">{{streak}}</view>
+        <view class="hero-label">连续学习天数</view>
+      </view>
+      <view class="hero-mascot"><mascot type="cheer" face="wow" style="width:120rpx;height:120rpx" /></view>
+    </view>
+  </view>
+
+  <!-- 三维数据 -->
+  <view class="section metrics">
+    <view class="metric" wx:for="{{metrics}}" wx:key="k">
+      <view class="metric-emoji">{{item.emoji}}</view>
+      <view class="metric-v">{{item.v}}</view>
+      <view class="metric-k">{{item.k}}</view>
+    </view>
+  </view>
+
+  <!-- 每日时长柱状图 -->
+  <view class="section">
+    <view class="card">
+      <view class="card-title">近 7 天学习时长（分钟）</view>
+      <view class="chart">
+        <view class="bar-col" wx:for="{{week}}" wx:key="date">
+          <view class="bar-val">{{item.min}}</view>
+          <view class="bar" style="height:{{item.h}}rpx"></view>
+          <view class="bar-day">{{item.day}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 小Q 建议 -->
+  <view class="section">
+    <view class="advice">
+      <view class="advice-ava"><mascot type="hero" face="happy" style="width:72rpx;height:72rpx" /></view>
+      <view class="advice-txt">
+        <view class="advice-title">小Q 的建议</view>
+        <view class="advice-body">{{advice}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="tab-spacer"></view>
+</view>

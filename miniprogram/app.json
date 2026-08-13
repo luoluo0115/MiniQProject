@@ -1,22 +1,30 @@
 {
   "pages": [
     "pages/home/index",
+    "pages/study/index",
+    "pages/library/index",
     "pages/reader/index",
     "pages/vocab/index",
+    "pages/wordbook/index",
+    "pages/listening/index",
+    "pages/scenes/index",
     "pages/ai/index",
     "pages/quiz/index",
     "pages/me/index",
-    "pages/parent/index"
+    "pages/report/index",
+    "pages/parent/index",
+    "pages/settings/index"
   ],
   "window": {
     "navigationStyle": "custom",
-    "backgroundColor": "#F5F6F8",
+    "backgroundColor": "#F3F7FF",
     "backgroundTextStyle": "dark",
     "navigationBarTextStyle": "black"
   },
   "usingComponents": {
     "mascot": "/components/mascot/mascot",
-    "navbar": "/components/navbar/navbar"
+    "navbar": "/components/navbar/navbar",
+    "tabbar": "/components/tabbar/tabbar"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json"

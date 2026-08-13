@@ -1,0 +1,46 @@
+/* 伙伴卡 */
+.partner-card {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 26rpx 28rpx;
+  border-radius: 28rpx;
+  background: linear-gradient(135deg, #FF6B8B, #FF8DA6);
+  box-shadow: 0 14rpx 30rpx rgba(255, 107, 139, .28);
+}
+.partner-ava {
+  width: 96rpx; height: 96rpx; flex: none;
+  border-radius: 26rpx;
+  background: rgba(255, 255, 255, .25);
+  display: grid; place-items: center;
+}
+.partner-name { font-size: 30rpx; font-weight: 800; color: #fff; }
+.partner-hi { font-size: 24rpx; color: rgba(255, 255, 255, .9); margin-top: 6rpx; }
+
+/* 场景网格 */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22rpx; }
+.sc {
+  position: relative;
+  padding: 26rpx 22rpx;
+  border-radius: 26rpx;
+  background: #fff;
+  box-shadow: 0 8rpx 22rpx rgba(42, 72, 126, .08);
+}
+.sc-cover {
+  height: 140rpx;
+  border-radius: 20rpx;
+  background: linear-gradient(145deg, #FFF0F4, #FFE0EA);
+  display: grid; place-items: center;
+  font-size: 84rpx;
+}
+.sc-title { font-size: 28rpx; font-weight: 800; color: #202634; margin-top: 14rpx; }
+.sc-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 8rpx; }
+.sc-lv { font-size: 20rpx; font-weight: 800; color: #FF6B8B; }
+.sc-min { font-size: 20rpx; color: #7D8799; }
+.sc-lock { opacity: .6; }
+.sc-badge {
+  position: absolute; top: 20rpx; right: 20rpx;
+  font-size: 18rpx; font-weight: 800; color: #7D8799;
+  background: rgba(255, 255, 255, .9);
+  padding: 4rpx 12rpx; border-radius: 999rpx;
+}

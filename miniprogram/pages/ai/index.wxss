@@ -3,32 +3,32 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: #F5F6F8;
+  background: #F3F7FF;
 }
 .pressed { transform: scale(.94); transition: transform .1s; }
 
 /* 向导头卡 */
 .guide {
-  margin: 20rpx 24rpx 0;
-  background: #FDF2F8;
-  border-radius: 40rpx;
-  padding: 22rpx;
+  margin: 16rpx 24rpx 0;
+  background: #FFEFF4;
+  border-radius: 28rpx;
+  padding: 20rpx 22rpx;
   display: flex;
   align-items: center;
   gap: 18rpx;
-  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+  box-shadow: 0 8rpx 20rpx rgba(255, 107, 139, .12);
 }
 .guide-avatar {
   width: 84rpx;
   height: 84rpx;
-  border-radius: 999rpx;
-  background: #FFEAD6;
+  border-radius: 24rpx;
+  background: #FFE0EA;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.guide-name { font-size: 28rpx; font-weight: 800; color: #2B2F38; }
-.guide-scene { font-size: 22rpx; color: #8A93A2; margin-top: 4rpx; }
+.guide-name { font-size: 28rpx; font-weight: 800; color: #202634; }
+.guide-scene { font-size: 22rpx; color: #7D8799; margin-top: 4rpx; }
 
 /* 对话区 */
 .chat { flex: 1; }
@@ -48,51 +48,63 @@
 .bubble-ai {
   align-self: flex-start;
   background: #fff;
-  color: #2B2F38;
+  color: #202634;
   border-top-left-radius: 8rpx;
-  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+  box-shadow: 0 8rpx 20rpx rgba(42, 72, 126, .07);
 }
 .bubble-user {
   align-self: flex-end;
-  background: linear-gradient(90deg, #4FC378, #10B981);
+  background: linear-gradient(120deg, #35B979, #2FA76C);
   color: #fff;
   border-top-right-radius: 8rpx;
 }
 .bubble-tip {
   align-self: stretch;
   max-width: 100%;
-  background: #FFFBEB;
-  border: 1rpx solid #FDE68A;
-  color: #78350F;
+  background: #FFF7E6;
+  border: 1rpx solid #FFE1A6;
+  color: #8A5A12;
   font-size: 22rpx;
   line-height: 1.5;
-  border-radius: 24rpx;
+  border-radius: 20rpx;
+}
+
+/* 示范表达 */
+.hint-tip {
+  margin: 0 24rpx;
+  padding: 14rpx 22rpx;
+  background: #EAF3FF;
+  color: #2C6FD6;
+  font-size: 24rpx;
+  font-weight: 600;
+  border-radius: 18rpx;
+  text-align: center;
 }
 
 /* 麦克风 */
 .mic-bar {
-  padding: 20rpx 0 calc(28rpx + env(safe-area-inset-bottom));
+  padding: 18rpx 0 calc(28rpx + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12rpx;
-  background: #F5F6F8;
 }
 .mic {
   width: 128rpx;
   height: 128rpx;
   border-radius: 999rpx;
-  background: linear-gradient(135deg, #FF6FA5, #FF6B4A);
+  background: linear-gradient(135deg, #FF6B8B, #FF704E);
   color: #fff;
   font-size: 52rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 10rpx 24rpx rgba(255, 107, 74, .35);
+  box-shadow: 0 12rpx 26rpx rgba(255, 112, 78, .35);
 }
 .mic-on { animation: pulse 1s ease-in-out infinite; }
+.mic-done { filter: grayscale(.5) opacity(.7); }
 @keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+  0%, 100% { transform: scale(1); box-shadow: 0 12rpx 26rpx rgba(255, 112, 78, .35); }
+  50% { transform: scale(1.09); box-shadow: 0 12rpx 40rpx rgba(255, 112, 78, .5); }
 }
-.mic-hint { font-size: 22rpx; color: #8A93A2; }
+.mic-hint { font-size: 22rpx; color: #7D8799; }

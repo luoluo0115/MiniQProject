@@ -1,0 +1,58 @@
+/* 渐变头 */
+.wb-head {
+  padding: 0 32rpx 30rpx;
+  background: linear-gradient(135deg, #7968ED, #596EF2);
+  border-radius: 0 0 40rpx 40rpx;
+  color: #fff;
+}
+.wb-back { width: 60rpx; height: 60rpx; margin-top: 12rpx; font-size: 46rpx; line-height: 56rpx; }
+.wb-title { font-size: 40rpx; font-weight: 800; }
+.wb-count { font-size: 24rpx; opacity: .92; margin-top: 18rpx; }
+.wb-num { font-size: 44rpx; font-weight: 800; }
+.wb-bar {
+  height: 14rpx;
+  background: rgba(255, 255, 255, .28);
+  border-radius: 999rpx;
+  overflow: hidden;
+  margin-top: 12rpx;
+}
+.wb-fill { height: 100%; background: #FFCA4B; border-radius: 999rpx; }
+
+/* 主题筛选 */
+.themes { margin-top: 20rpx; }
+.themes-row { display: flex; gap: 14rpx; padding: 0 28rpx; white-space: nowrap; }
+.th {
+  flex: none;
+  padding: 12rpx 26rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #7D8799;
+  background: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(42, 72, 126, .05);
+}
+.th.on { color: #fff; background: #7968ED; box-shadow: 0 8rpx 18rpx rgba(121, 104, 237, .3); }
+
+/* 单词网格 */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20rpx; }
+.wc {
+  padding: 26rpx 20rpx;
+  background: #fff;
+  border-radius: 24rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 20rpx rgba(42, 72, 126, .07);
+}
+.wc-emoji { font-size: 72rpx; }
+.wc-word { font-size: 32rpx; font-weight: 800; color: #202634; margin-top: 8rpx; }
+.wc-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 20rpx;
+  font-weight: 700;
+  margin-top: 10rpx;
+}
+.wc-dot { width: 12rpx; height: 12rpx; border-radius: 999rpx; background: currentColor; }
+.wc-mastered { color: #35B979; }
+.wc-learning { color: #FFB300; }
+.wc-new { color: #FF6B8B; }

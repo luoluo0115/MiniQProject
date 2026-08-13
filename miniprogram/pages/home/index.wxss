@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  background: #F5F6F8;
+  background: #F3F7FF;
 }
 
 .pressed { transform: scale(.96); transition: transform .1s; }
@@ -38,10 +38,10 @@
   gap: 3rpx;
 }
 .dot { width: 18rpx; height: 18rpx; border-radius: 5rpx; }
-.dot-grass { background: #4FC378; }
-.dot-sky   { background: #4FB5F0; }
-.dot-sunny { background: #FFC93C; }
-.dot-coral { background: #FF6B4A; }
+.dot-grass { background: #35B979; }
+.dot-sky   { background: #3D8BFF; }
+.dot-sunny { background: #FFCA4B; }
+.dot-coral { background: #FF704E; }
 .logo-text { font-size: 30rpx; font-weight: 800; color: #2B2F38; }
 .capsule {
   display: flex;
@@ -137,8 +137,8 @@
 }
 .plan-title { font-size: 32rpx; font-weight: 800; color: #2B2F38; }
 .level-pill {
-  background: rgba(79, 195, 120, .15);
-  color: #4FC378;
+  background: rgba(53, 185, 121, .15);
+  color: #35B979;
   font-size: 22rpx;
   font-weight: 700;
   padding: 8rpx 20rpx;
@@ -155,11 +155,11 @@
 }
 .plan-text { font-size: 24rpx; font-weight: 700; color: #2B2F38; }
 .plan-reason { margin: -8rpx 0 14rpx 48rpx; font-size: 20rpx; color: #8A93A2; }
-.plan-coin { font-size: 28rpx; font-weight: 800; color: #FFC93C; }
+.plan-coin { font-size: 28rpx; font-weight: 800; color: #E0A61E; }
 .btn-start {
   margin-top: 24rpx;
   width: 100%;
-  background: linear-gradient(90deg, #FF6FA5, #FF6B4A);
+  background: linear-gradient(135deg, #FF6B8B, #FF704E);
   color: #fff;
   font-size: 30rpx;
   font-weight: 800;
@@ -210,43 +210,3 @@
 .brand-title { font-size: 36rpx; font-weight: 800; color: #92400E; }
 .brand-sub { font-size: 22rpx; color: rgba(146, 64, 14, .8); margin-top: 4rpx; }
 .brand-emoji { font-size: 64rpx; }
-
-/* ---------- 底部 Tab ---------- */
-.tabbar {
-  position: relative;
-  z-index: 30;
-  background: #fff;
-  border-top: 1rpx solid #F1F2F4;
-  padding: 12rpx 16rpx calc(16rpx + env(safe-area-inset-bottom));
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-end;
-}
-.tab {
-  width: 112rpx;
-  padding: 8rpx 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4rpx;
-  color: #B7BEC9;
-}
-.tab.active { color: #FF6FA5; }
-.tab-ico { font-size: 38rpx; line-height: 1; }
-.tab-txt { font-size: 20rpx; font-weight: 700; }
-.tab-txt-pink { color: #FF6FA5; }
-.tab-center { position: relative; }
-.tab-fab {
-  width: 104rpx;
-  height: 104rpx;
-  margin-top: -48rpx;
-  border-radius: 999rpx;
-  background: linear-gradient(135deg, #FF6FA5, #FF6B4A);
-  color: #fff;
-  font-size: 46rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 8rpx solid #fff;
-  box-shadow: 0 8rpx 20rpx rgba(255, 107, 74, .35);
-}

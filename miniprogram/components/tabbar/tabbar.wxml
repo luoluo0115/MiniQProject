@@ -1,0 +1,13 @@
+<!-- 共享底部 Tab（4 Tab · 原型结构）：首页 / 学习 / 闯关 / 我的 -->
+<view class="tabbar">
+  <view
+    class="tab {{active === item.key ? 'on' : ''}}"
+    wx:for="{{tabs}}"
+    wx:key="key"
+    data-key="{{item.key}}"
+    data-url="{{item.url}}"
+    bindtap="onTap">
+    <text class="ico">{{item.ico}}</text>
+    <text class="txt">{{item.label}}</text>
+  </view>
+</view>

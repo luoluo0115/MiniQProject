@@ -1,0 +1,64 @@
+/* Level 筛选 */
+.levels { margin-top: 12rpx; }
+.levels-row { display: flex; gap: 14rpx; padding: 8rpx 28rpx; white-space: nowrap; }
+.lv {
+  flex: none;
+  padding: 12rpx 26rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #7D8799;
+  background: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(42, 72, 126, .05);
+}
+.lv.on { color: #fff; background: #3D8BFF; box-shadow: 0 8rpx 18rpx rgba(61, 139, 255, .3); }
+
+/* 续读卡 */
+.resume {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 28rpx;
+  border-radius: 24rpx;
+  background: linear-gradient(135deg, #EAF3FF, #DCEBFF);
+  box-shadow: 0 8rpx 20rpx rgba(61, 139, 255, .14);
+}
+.resume-tag { font-size: 20rpx; font-weight: 800; color: #3D8BFF; }
+.resume-title { font-size: 28rpx; font-weight: 800; color: #202634; margin-top: 6rpx; }
+.resume-cover { font-size: 66rpx; }
+
+/* 书册网格 */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22rpx; }
+.bk {
+  padding: 18rpx;
+  border-radius: 24rpx;
+  background: #fff;
+  box-shadow: 0 8rpx 22rpx rgba(42, 72, 126, .08);
+}
+.bk-cover {
+  height: 200rpx;
+  border-radius: 18rpx;
+  display: grid;
+  place-items: center;
+  font-size: 96rpx;
+}
+.bk-sky   { background: linear-gradient(145deg, #E7F1FF, #CFE4FF); }
+.bk-grape { background: linear-gradient(145deg, #EFECFF, #DFD7FF); }
+.bk-grass { background: linear-gradient(145deg, #E4F8ED, #CFF0DE); }
+.bk-coral { background: linear-gradient(145deg, #FFEBE4, #FFD6C8); }
+.bk-sunny { background: linear-gradient(145deg, #FFF6DE, #FFE9AE); }
+.bk-pinky { background: linear-gradient(145deg, #FFEAF0, #FFD2E0); }
+.bk-title {
+  font-size: 26rpx;
+  font-weight: 800;
+  color: #202634;
+  margin-top: 14rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.bk-meta { display: flex; justify-content: space-between; align-items: center; margin-top: 8rpx; }
+.bk-lv { font-size: 20rpx; font-weight: 800; color: #3D8BFF; }
+.bk-min { font-size: 20rpx; color: #7D8799; }
+
+.empty { text-align: center; color: #7D8799; font-size: 24rpx; padding: 80rpx 40rpx; }

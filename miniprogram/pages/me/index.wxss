@@ -1,38 +1,29 @@
 /* 我的 · 探险家档案 */
-.page {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background: #F5F6F8;
-}
-.scroller { flex: 1; }
-.tail { height: 40rpx; }
-.pressed { transform: scale(.97); transition: transform .1s; }
+.scroller { height: 100vh; }
 
 /* 资料卡 */
 .profile {
-  margin: 24rpx;
-  border-radius: 40rpx;
-  padding: 32rpx;
-  background: linear-gradient(90deg, #FF6FA5, #FF6B4A);
+  padding: 28rpx 32rpx 34rpx;
+  background: linear-gradient(135deg, #FF6B8B, #FF704E);
   color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+  border-radius: 0 0 40rpx 40rpx;
+  box-shadow: 0 14rpx 30rpx rgba(255, 112, 78, .22);
 }
 .profile-left { display: flex; align-items: center; gap: 20rpx; }
 .profile-avatar {
-  width: 96rpx;
-  height: 96rpx;
-  border-radius: 999rpx;
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: 28rpx;
   background: rgba(255, 255, 255, .25);
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.profile-name { font-size: 32rpx; font-weight: 800; }
-.profile-sub { font-size: 22rpx; opacity: .92; margin-top: 4rpx; }
+.profile-name { font-size: 34rpx; font-weight: 800; }
+.profile-sub { font-size: 22rpx; opacity: .92; margin-top: 6rpx; }
 .profile-shop {
   background: rgba(255, 255, 255, .25);
   font-size: 24rpx;
@@ -41,51 +32,60 @@
   border-radius: 999rpx;
 }
 
+/* 今日快照 */
+.stats { display: flex; gap: 18rpx; }
+.stat {
+  flex: 1;
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 26rpx 0;
+  text-align: center;
+  box-shadow: 0 8rpx 20rpx rgba(42, 72, 126, .07);
+}
+.stat-v { font-size: 40rpx; font-weight: 800; color: #202634; }
+.stat-k { font-size: 22rpx; color: #7D8799; margin-top: 4rpx; }
+
 /* 卡片 */
 .card {
-  margin: 0 24rpx;
   background: #fff;
-  border-radius: 40rpx;
+  border-radius: 28rpx;
   padding: 28rpx;
-  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+  box-shadow: 0 8rpx 22rpx rgba(42, 72, 126, .08);
 }
-.card-title { font-size: 28rpx; font-weight: 800; color: #2B2F38; margin-bottom: 24rpx; }
+.card-title { font-size: 28rpx; font-weight: 800; color: #202634; margin-bottom: 24rpx; }
 
 /* 徽章网格 */
-.badges {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24rpx;
-  text-align: center;
-}
+.badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24rpx; text-align: center; }
 .badge { display: flex; flex-direction: column; align-items: center; gap: 8rpx; }
 .badge-ico {
   width: 108rpx;
   height: 108rpx;
-  border-radius: 999rpx;
+  border-radius: 28rpx;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 48rpx;
-  box-shadow: 0 6rpx 14rpx rgba(43, 47, 56, .1);
+  box-shadow: 0 8rpx 16rpx rgba(42, 72, 126, .1);
 }
-.bg-grass { background: linear-gradient(135deg, #86EFAC, #34D399); }
-.bg-amber { background: linear-gradient(135deg, #FCD34D, #FB923C); }
-.bg-rose  { background: linear-gradient(135deg, #FCA5A5, #FB7185); }
-.bg-sky   { background: linear-gradient(135deg, #7DD3FC, #60A5FA); }
+.bg-grass { background: linear-gradient(135deg, #86EFAC, #35B979); }
+.bg-amber { background: linear-gradient(135deg, #FFDD8A, #FFCA4B); }
+.bg-rose  { background: linear-gradient(135deg, #FFB3C3, #FF6B8B); }
+.bg-sky   { background: linear-gradient(135deg, #A9D3FF, #3D8BFF); }
 .badge-lock { background: #F1F5F9; box-shadow: none; opacity: .5; filter: grayscale(1); }
-.badge-label { font-size: 18rpx; font-weight: 700; color: #2B2F38; }
-.label-lock { color: #8A93A2; font-weight: 400; }
+.badge-label { font-size: 18rpx; font-weight: 700; color: #202634; }
+.label-lock { color: #7D8799; font-weight: 400; }
 
-/* 家长入口 */
-.parent-btn {
-  margin: 24rpx;
+/* 功能入口 */
+.entries { display: flex; flex-direction: column; gap: 16rpx; }
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
   background: #fff;
-  color: #2B2F38;
-  font-size: 28rpx;
-  font-weight: 800;
-  text-align: center;
-  padding: 30rpx 0;
-  border-radius: 32rpx;
-  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+  border-radius: 24rpx;
+  padding: 28rpx 28rpx;
+  box-shadow: 0 8rpx 20rpx rgba(42, 72, 126, .06);
 }
+.entry-ico { font-size: 40rpx; }
+.entry-label { flex: 1; font-size: 28rpx; font-weight: 800; color: #202634; }
+.entry-arrow { font-size: 40rpx; color: #C3CBD9; }

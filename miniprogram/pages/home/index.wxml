@@ -100,24 +100,7 @@
     <view class="tab-spacer"></view>
   </scroll-view>
 
-  <!-- 底部 Tab（含中间凸起会员码） -->
-  <view class="tabbar">
-    <view class="tab active" data-tab="home" bindtap="onTabTap">
-      <text class="tab-ico">🏠</text><text class="tab-txt">首页</text>
-    </view>
-    <view class="tab" data-tab="academy" bindtap="onTabTap">
-      <text class="tab-ico">🎓</text><text class="tab-txt">星学院</text>
-    </view>
-    <view class="tab tab-center" data-tab="code" bindtap="onTabTap">
-      <view class="tab-fab">▦</view>
-      <text class="tab-txt tab-txt-pink">会员码</text>
-    </view>
-    <view class="tab" data-tab="shop" bindtap="onTabTap">
-      <text class="tab-ico">👑</text><text class="tab-txt">商城</text>
-    </view>
-    <view class="tab" data-tab="me" bindtap="onTabTap">
-      <text class="tab-ico">💬</text><text class="tab-txt">我的</text>
-    </view>
-  </view>
+  <!-- 共享底部 Tab（4 Tab） -->
+  <tabbar active="home" />
 
 </view>

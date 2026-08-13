@@ -1,30 +1,47 @@
-// 家长控制台
+// 家长控制台（周报接 summary；开关本地持久化 wx.setStorageSync）
 const api = require('../../utils/api');
 const app = getApp();
+
+const KEY = 'parentControls';
+
+function today() {
+  const d = new Date();
+  const p = n => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
+}
+
 Page({
   data: {
     eyeCare: true,
     dailyLimit: true,
     report: [
-      { num: '7',   label: '阅读本数', cls: 'stat-grass' },
-      { num: '86%', label: '背词准确', cls: 'stat-sunny' },
-      { num: '42',  label: '对话轮次', cls: 'stat-pinky' }
+      { num: '0', label: '有效分钟', cls: 'stat-grass' },
+      { num: '0', label: '复习单词', cls: 'stat-sunny' },
+      { num: '0/0', label: '完成任务', cls: 'stat-pinky' }
     ]
   },
 
   onLoad() {
-    const date = new Date().toISOString().slice(0, 10);
-    api.summary(app.globalData.userId, date).then(summary => this.setData({ report: [
-      { num: String(summary.effectiveMinutes || 0), label: '有效分钟', cls: 'stat-grass' },
-      { num: String(summary.wordsReviewed || 0), label: '复习单词', cls: 'stat-sunny' },
-      { num: `${summary.completed_tasks || 0}/${summary.total_tasks || 0}`, label: '完成任务', cls: 'stat-pinky' }
-    ] })).catch(() => {});
+    const saved = wx.getStorageSync(KEY) || {};
+    this.setData({
+      eyeCare: saved.eyeCare !== undefined ? saved.eyeCare : true,
+      dailyLimit: saved.dailyLimit !== undefined ? saved.dailyLimit : true
+    });
+    api.summary(app.globalData.userId, today()).then(s => this.setData({
+      report: [
+        { num: String(s.effectiveMinutes || 0), label: '有效分钟', cls: 'stat-grass' },
+        { num: String(s.wordsReviewed || 0), label: '复习单词', cls: 'stat-sunny' },
+        { num: `${s.completed_tasks || 0}/${s.total_tasks || 0}`, label: '完成任务', cls: 'stat-pinky' }
+      ]
+    })).catch(() => {});
   },
 
-  toggleEye(e) {
-    this.setData({ eyeCare: e.detail.value });
+  persist() {
+    wx.setStorageSync(KEY, { eyeCare: this.data.eyeCare, dailyLimit: this.data.dailyLimit });
   },
-  toggleLimit(e) {
-    this.setData({ dailyLimit: e.detail.value });
-  }
+
+  toggleEye(e) { this.setData({ eyeCare: e.detail.value }); this.persist(); },
+  toggleLimit(e) { this.setData({ dailyLimit: e.detail.value }); this.persist(); },
+
+  openReport() { wx.navigateTo({ url: '/pages/report/index' }); }
 });

@@ -1,0 +1,48 @@
+<!-- 分级绘本馆 -->
+<view class="q-page">
+  <navbar title="分级绘本馆" />
+
+  <!-- Level 筛选 -->
+  <scroll-view scroll-x class="levels" enhanced show-scrollbar="{{false}}">
+    <view class="levels-row">
+      <view
+        class="lv {{level === item ? 'on' : ''}}"
+        wx:for="{{levels}}"
+        wx:key="*this"
+        data-lv="{{item}}"
+        bindtap="onLevel">{{item === 'all' ? '全部' : 'Level ' + item}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 续读卡 -->
+  <view class="section" wx:if="{{resume}}">
+    <view class="resume" hover-class="pressed" data-key="{{resume.key}}" bindtap="onOpen">
+      <view>
+        <view class="resume-tag">上次读到</view>
+        <view class="resume-title">{{resume.title}} · 第 {{resume.page}} 页</view>
+      </view>
+      <view class="resume-cover">{{resume.cover}}</view>
+    </view>
+  </view>
+
+  <!-- 书册网格 -->
+  <view class="section grid">
+    <view
+      class="bk"
+      wx:for="{{filtered}}"
+      wx:key="key"
+      hover-class="pressed"
+      data-key="{{item.key}}"
+      bindtap="onOpen">
+      <view class="bk-cover bk-{{item.tone}}">{{item.cover}}</view>
+      <view class="bk-title">{{item.title}}</view>
+      <view class="bk-meta">
+        <text class="bk-lv">Level {{item.level}}</text>
+        <text class="bk-min">{{item.minutes}}′</text>
+      </view>
+    </view>
+  </view>
+
+  <view wx:if="{{!filtered.length}}" class="empty">这个级别还没有绘本，换个 Level 看看～</view>
+  <view class="tab-spacer"></view>
+</view>

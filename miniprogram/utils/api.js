@@ -16,6 +16,7 @@ module.exports = {
   dueWords(userId, limit = 20) { return request(`/api/words/due?userId=${userId}&limit=${limit}`); },
   reviewWord(wordId, payload) { return request(`/api/words/${wordId}/review`, { method: 'POST', data: payload }); },
   content(contentId) { return request(`/api/content/${contentId}`); },
+  contentList(status = 'approved', limit = 50) { return request(`/api/content?status=${status}&limit=${limit}`); },
   startSession(payload) { return request('/api/sessions/start', { method: 'POST', data: payload }); },
   finishSession(sessionId, payload) { return request(`/api/sessions/${encodeURIComponent(sessionId)}/finish`, { method: 'POST', data: payload }); },
   event(payload) { return request('/api/events', { method: 'POST', data: payload }); },

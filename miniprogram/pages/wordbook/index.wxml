@@ -1,0 +1,35 @@
+<!-- 单词图鉴 -->
+<view class="q-page">
+  <!-- 渐变头 -->
+  <view class="wb-head" style="padding-top:{{statusBarH}}px">
+    <view class="wb-back" bindtap="onBack">‹</view>
+    <view class="wb-title">单词图鉴</view>
+    <view class="wb-count"><text class="wb-num">{{collected}}</text> / {{total}} 已收集</view>
+    <view class="wb-bar"><view class="wb-fill" style="width:{{percent}}%"></view></view>
+  </view>
+
+  <!-- 主题筛选 -->
+  <scroll-view scroll-x class="themes" enhanced show-scrollbar="{{false}}">
+    <view class="themes-row">
+      <view
+        class="th {{theme === item.key ? 'on' : ''}}"
+        wx:for="{{themes}}"
+        wx:key="key"
+        data-key="{{item.key}}"
+        bindtap="onTheme">{{item.label}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 单词网格 -->
+  <view class="section grid">
+    <view class="wc" wx:for="{{filtered}}" wx:key="word">
+      <view class="wc-emoji">{{item.emoji}}</view>
+      <view class="wc-word">{{item.word}}</view>
+      <view class="wc-meta wc-{{item.state}}">
+        <text class="wc-dot"></text>{{item.label}} · {{item.mastery}}%
+      </view>
+    </view>
+  </view>
+
+  <view class="tab-spacer"></view>
+</view>

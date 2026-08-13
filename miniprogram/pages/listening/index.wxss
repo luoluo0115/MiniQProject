@@ -1,0 +1,89 @@
+/* 素材切换 */
+.tracks { margin-top: 12rpx; }
+.tracks-row { display: flex; gap: 14rpx; padding: 8rpx 28rpx; white-space: nowrap; }
+.tk {
+  flex: none;
+  padding: 12rpx 26rpx;
+  border-radius: 999rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #7D8799;
+  background: #fff;
+  box-shadow: 0 4rpx 12rpx rgba(42, 72, 126, .05);
+}
+.tk.on { color: #fff; background: #33C3D6; box-shadow: 0 8rpx 18rpx rgba(51, 195, 214, .3); }
+
+/* 圆形播放器 */
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 26rpx;
+  padding: 40rpx 0 10rpx;
+}
+.disc {
+  position: relative;
+  width: 300rpx;
+  height: 300rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #33C3D6, #3D8BFF);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 20rpx 44rpx rgba(51, 143, 214, .35);
+}
+.disc.spin { animation: spin 6s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.disc-inner {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 999rpx;
+  background: rgba(255, 255, 255, .22);
+  display: grid;
+  place-items: center;
+  font-size: 96rpx;
+}
+.disc-ring {
+  position: absolute;
+  inset: 24rpx;
+  border-radius: 999rpx;
+  border: 4rpx solid rgba(255, 255, 255, .4);
+}
+.play-btn {
+  padding: 18rpx 60rpx;
+  border-radius: 999rpx;
+  background: #fff;
+  color: #2C86C4;
+  font-size: 28rpx;
+  font-weight: 800;
+  box-shadow: 0 8rpx 20rpx rgba(42, 72, 126, .1);
+}
+
+/* 模式 */
+.modes { display: flex; gap: 14rpx; }
+.mode {
+  flex: 1;
+  text-align: center;
+  padding: 18rpx 0;
+  border-radius: 18rpx;
+  font-size: 24rpx;
+  font-weight: 700;
+  color: #7D8799;
+  background: #fff;
+  box-shadow: 0 6rpx 16rpx rgba(42, 72, 126, .05);
+}
+.mode.on { color: #fff; background: #33C3D6; }
+
+/* 句子卡 */
+.line-card {
+  background: #fff;
+  border-radius: 28rpx;
+  padding: 40rpx 32rpx;
+  text-align: center;
+  box-shadow: 0 8rpx 22rpx rgba(42, 72, 126, .08);
+}
+.line-en { font-size: 40rpx; font-weight: 700; color: #202634; line-height: 1.5; }
+.line-zh { font-size: 26rpx; color: #7D8799; margin-top: 16rpx; }
+.line-hide { font-style: italic; color: #B7BEC9; }
+.line-dots { display: flex; justify-content: center; gap: 10rpx; margin-top: 26rpx; }
+.ld { width: 14rpx; height: 14rpx; border-radius: 999rpx; background: #E1E7F2; transition: all .2s; }
+.ld.on { width: 34rpx; background: #33C3D6; }

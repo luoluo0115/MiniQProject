@@ -1,0 +1,61 @@
+<!-- 设置 -->
+<view class="q-page">
+  <navbar title="设置" />
+
+  <!-- 学习设置 -->
+  <view class="section">
+    <view class="group-title">学习设置</view>
+    <view class="card">
+      <view class="row" bindtap="pickLevel">
+        <text class="row-label">分级级别</text>
+        <text class="row-val">Level {{level}} ›</text>
+      </view>
+      <view class="row" bindtap="pickGrade">
+        <text class="row-label">年级</text>
+        <text class="row-val">{{grade}} 年级 ›</text>
+      </view>
+      <view class="row">
+        <text class="row-label">每日目标时长</text>
+        <text class="row-val">{{target}} 分钟</text>
+      </view>
+      <slider class="slider" min="5" max="45" step="5" value="{{target}}" activeColor="#7968ED" block-size="22" bindchange="onTarget" />
+    </view>
+  </view>
+
+  <!-- 通用设置 -->
+  <view class="section">
+    <view class="group-title">通用设置</view>
+    <view class="card">
+      <view class="row">
+        <text class="row-label">学习提醒</text>
+        <switch checked="{{remind}}" color="#7968ED" bindchange="toggleRemind" />
+      </view>
+      <view class="row">
+        <text class="row-label">音效与振动</text>
+        <switch checked="{{sound}}" color="#7968ED" bindchange="toggleSound" />
+      </view>
+      <view class="row" hover-class="pressed" bindtap="clearCache">
+        <text class="row-label">清理缓存</text>
+        <text class="row-val">{{cache}} ›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="section">
+    <view class="group-title">关于</view>
+    <view class="card">
+      <view class="row">
+        <text class="row-label">当前版本</text>
+        <text class="row-val">v1.0.0</text>
+      </view>
+      <view class="row" hover-class="pressed" bindtap="showPrivacy">
+        <text class="row-label">隐私协议</text>
+        <text class="row-val">›</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="brand-foot">小Q · 小学英语成长伙伴 🌱</view>
+  <view class="tab-spacer"></view>
+</view>

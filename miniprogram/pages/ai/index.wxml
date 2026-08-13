@@ -1,13 +1,13 @@
 <!-- AI 口语角 · 场景对话陪练 -->
 <view class="page">
-  <navbar title="AI 口语角"></navbar>
+  <navbar title="小Q 口语陪练" />
 
   <!-- 向导头卡 -->
   <view class="guide">
-    <view class="guide-avatar"><mascot type="partner" style="width:72rpx;height:72rpx"></mascot></view>
+    <view class="guide-avatar"><mascot type="partner" face="happy" style="width:72rpx;height:72rpx" /></view>
     <view>
-      <view class="guide-name">小Q口语伙伴 · Sam</view>
-      <view class="guide-scene">{{scene}}</view>
+      <view class="guide-name">小Q 口语伙伴 · {{partner}}</view>
+      <view class="guide-scene">{{sceneMeta}}</view>
     </view>
   </view>
 
@@ -20,9 +20,12 @@
     </view>
   </scroll-view>
 
+  <!-- 示范表达提示 -->
+  <view wx:if="{{hint && !listening}}" class="hint-tip">试着说：{{hint}}</view>
+
   <!-- 麦克风 -->
   <view class="mic-bar">
-    <view class="mic {{listening ? 'mic-on' : ''}}" hover-class="pressed" bindtap="onMic">🎙️</view>
-    <view class="mic-hint">{{listening ? 'AI 聆听中…' : '按住说话 · 全双工 AI 响应 <1.5s'}}</view>
+    <view class="mic {{listening ? 'mic-on' : ''}} {{finishedFlow ? 'mic-done' : ''}}" hover-class="pressed" bindtap="onMic">🎙️</view>
+    <view class="mic-hint">{{finishedFlow ? '本场景已完成 🎉' : (listening ? '● 录音中 · 再点一次结束' : '点一下说话 · 松开即评')}}</view>
   </view>
 </view>

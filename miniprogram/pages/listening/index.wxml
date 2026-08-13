@@ -1,0 +1,49 @@
+<!-- 磨耳朵 · 听力训练 -->
+<view class="q-page">
+  <navbar title="磨耳朵" />
+
+  <!-- 素材切换 -->
+  <scroll-view scroll-x class="tracks" enhanced show-scrollbar="{{false}}">
+    <view class="tracks-row">
+      <view
+        class="tk {{trackIndex === index ? 'on' : ''}}"
+        wx:for="{{tracks}}"
+        wx:key="key"
+        data-i="{{index}}"
+        bindtap="onPickTrack">{{item.cover}} {{item.title}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 圆形播放器 -->
+  <view class="player">
+    <view class="disc {{playing ? 'spin' : ''}}" bindtap="togglePlay">
+      <view class="disc-inner">{{track.cover}}</view>
+      <view class="disc-ring"></view>
+    </view>
+    <view class="play-btn" bindtap="togglePlay">{{playing ? '⏸ 暂停' : '▶ 播放'}}</view>
+  </view>
+
+  <!-- 模式 -->
+  <view class="section modes">
+    <view
+      class="mode {{mode === item.key ? 'on' : ''}}"
+      wx:for="{{modes}}"
+      wx:key="key"
+      data-key="{{item.key}}"
+      bindtap="onMode">{{item.label}}</view>
+  </view>
+
+  <!-- 当前句子 -->
+  <view class="section">
+    <view class="line-card">
+      <view class="line-en">{{track.lines[cursor].en}}</view>
+      <view class="line-zh" wx:if="{{mode !== 'blind'}}">{{track.lines[cursor].zh}}</view>
+      <view class="line-zh line-hide" wx:else>盲听模式 · 先听后看</view>
+      <view class="line-dots">
+        <text class="ld {{index === cursor ? 'on' : ''}}" wx:for="{{track.lines}}" wx:key="en"></text>
+      </view>
+    </view>
+  </view>
+
+  <view class="tab-spacer"></view>
+</view>

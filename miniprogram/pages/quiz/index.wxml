@@ -1,45 +1,59 @@
-<!-- 趣味闯关 · 图文匹配 -->
-<view class="page">
-  <navbar title="趣味闯关"></navbar>
+<!-- 趣味闯关 · 图文匹配（Tab 页） -->
+<view class="q-page">
+  <!-- 自定义头（无返回，Tab 页） -->
+  <view class="topbar" style="padding-top:{{statusBarH}}px">
+    <view class="eyebrow">DAILY CHALLENGE</view>
+    <view class="h1">趣味闯关</view>
+  </view>
 
   <scroll-view scroll-y class="scroller" enhanced show-scrollbar="{{false}}">
-
     <!-- 闯关进行中 -->
     <block wx:if="{{!done}}">
-      <view class="quiz-head">
+      <view class="section quiz-head">
         <text class="quiz-title">🧩 图文匹配闯关</text>
         <text class="quiz-combo">🔥 连击 x{{combo}}</text>
       </view>
 
-      <view class="q-card">
-        <view class="q-art">{{q.art}}</view>
-        <view class="q-options">
-          <view
-            wx:for="{{options}}"
-            wx:key="label"
-            class="opt opt-{{item.state}}"
-            data-i="{{index}}"
-            bindtap="onAnswer">{{item.label}}</view>
+      <view class="section">
+        <view class="q-card anim-in">
+          <view class="q-art">{{q.emoji}}</view>
+          <view class="q-options">
+            <view
+              wx:for="{{options}}"
+              wx:key="label"
+              class="opt opt-{{item.state}}"
+              data-i="{{index}}"
+              bindtap="onAnswer">{{item.label}}</view>
+          </view>
         </view>
       </view>
 
-      <view class="prog-card">
-        <view class="prog-head">
-          <text class="prog-title">关卡进度 · 果园采集家</text>
-          <text class="prog-num">{{step}} / {{total}}</text>
+      <view class="section">
+        <view class="prog-card">
+          <view class="prog-head">
+            <text class="prog-title">关卡进度 · 果园采集家</text>
+            <text class="prog-num">{{step}} / {{total}}</text>
+          </view>
+          <view class="prog-bar"><view class="prog-fill" style="width:{{percent}}%"></view></view>
         </view>
-        <view class="prog-bar"><view class="prog-fill" style="width:{{percent}}%"></view></view>
       </view>
     </block>
 
     <!-- 通关态 -->
-    <view wx:else class="done-card">
-      <view class="done-mascot"><mascot type="cheer" style="width:220rpx;height:220rpx"></mascot></view>
-      <view class="done-title">今日关卡已通关！</view>
-      <view class="done-sub">明天再来词野继续探险 🌱</view>
-      <view class="done-sub">解锁徽章 🏅 果园采集家</view>
-      <view class="done-btn" bindtap="backHome">回首页</view>
+    <view wx:else class="section">
+      <view class="done-card anim-pop">
+        <view class="done-mascot"><mascot type="cheer" face="wow" style="width:220rpx;height:220rpx" /></view>
+        <view class="done-title">🎉 今日关卡已通关！</view>
+        <view class="done-sub">答对 {{correct}} / {{total}} 题，解锁徽章 🏅 果园采集家</view>
+        <view class="done-actions">
+          <view class="done-btn ghost" bindtap="restart">再来一局</view>
+          <view class="done-btn" bindtap="goStudy">继续学习</view>
+        </view>
+      </view>
     </view>
 
+    <view class="tab-spacer"></view>
   </scroll-view>
+
+  <tabbar active="quiz" />
 </view>

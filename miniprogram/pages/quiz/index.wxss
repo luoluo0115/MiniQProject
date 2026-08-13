@@ -1,42 +1,37 @@
 /* 趣味闯关 */
-.page {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background: #F5F6F8;
-}
-.scroller { flex: 1; }
+.scroller { height: calc(100vh - 150rpx); }
+
+.topbar { padding: 20rpx 32rpx 8rpx; }
+.topbar .h1 { font-size: 44rpx; font-weight: 800; color: #202634; margin-top: 4rpx; }
 
 .quiz-head {
-  margin: 24rpx 24rpx 0;
   background: #fff;
-  border-radius: 40rpx;
+  border-radius: 24rpx;
   padding: 24rpx 28rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+  box-shadow: 0 8rpx 22rpx rgba(42, 72, 126, .08);
 }
-.quiz-title { font-size: 28rpx; font-weight: 800; color: #FF6B4A; }
-.quiz-combo { font-size: 24rpx; font-weight: 800; color: #FF6B4A; }
+.quiz-title { font-size: 28rpx; font-weight: 800; color: #FF704E; }
+.quiz-combo { font-size: 24rpx; font-weight: 800; color: #FF704E; }
 
 .q-card {
-  margin: 20rpx 24rpx 0;
   background: #fff;
-  border-radius: 40rpx;
+  border-radius: 32rpx;
   padding: 32rpx;
-  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+  box-shadow: 0 12rpx 28rpx rgba(42, 72, 126, .1);
 }
 .q-art {
   width: 100%;
-  height: 240rpx;
-  background: #FEF2F2;
-  border-radius: 32rpx;
+  height: 260rpx;
+  background: linear-gradient(145deg, #FFF3EE, #FFE6DC);
+  border-radius: 28rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 120rpx;
-  margin-bottom: 24rpx;
+  font-size: 140rpx;
+  margin-bottom: 26rpx;
 }
 .q-options {
   display: grid;
@@ -44,32 +39,28 @@
   gap: 20rpx;
 }
 .opt {
-  padding: 28rpx 0;
-  border-radius: 32rpx;
+  padding: 30rpx 0;
+  border-radius: 24rpx;
   background: #F1F5F9;
-  color: #2B2F38;
-  font-size: 30rpx;
+  color: #202634;
+  font-size: 32rpx;
   font-weight: 800;
   text-align: center;
-  transition: background .15s, color .15s;
+  transition: background .15s, color .15s, transform .1s;
 }
-.opt-right { background: #4FC378; color: #fff; }
-.opt-wrong { background: #FEE2E2; color: #B91C1C; }
+.opt:active { transform: scale(.97); }
+.opt-right { background: #35B979; color: #fff; }
+.opt-wrong { background: #FFE4DE; color: #C0392B; }
 
 .prog-card {
-  margin: 20rpx 24rpx 0;
   background: #fff;
-  border-radius: 40rpx;
+  border-radius: 28rpx;
   padding: 28rpx;
-  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+  box-shadow: 0 8rpx 22rpx rgba(42, 72, 126, .08);
 }
-.prog-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.prog-title { font-size: 26rpx; font-weight: 800; color: #2B2F38; }
-.prog-num { font-size: 24rpx; font-weight: 800; color: #FF6B4A; }
+.prog-head { display: flex; align-items: center; justify-content: space-between; }
+.prog-title { font-size: 26rpx; font-weight: 800; color: #202634; }
+.prog-num { font-size: 24rpx; font-weight: 800; color: #FF704E; }
 .prog-bar {
   margin-top: 16rpx;
   height: 20rpx;
@@ -77,27 +68,30 @@
   border-radius: 999rpx;
   overflow: hidden;
 }
-.prog-fill { height: 100%; background: linear-gradient(90deg, #FF6FA5, #FF6B4A); }
+.prog-fill { height: 100%; background: linear-gradient(90deg, #FF6B8B, #FF704E); transition: width .3s; }
 
 /* 通关态 */
 .done-card {
-  margin: 24rpx;
   background: #fff;
-  border-radius: 40rpx;
-  padding: 48rpx;
+  border-radius: 36rpx;
+  padding: 48rpx 40rpx;
   text-align: center;
-  box-shadow: 0 6rpx 18rpx rgba(43, 47, 56, .07);
+  box-shadow: 0 14rpx 32rpx rgba(42, 72, 126, .1);
 }
 .done-mascot { display: flex; justify-content: center; }
-.done-title { font-size: 36rpx; font-weight: 800; color: #2B2F38; margin-top: 12rpx; }
-.done-sub { font-size: 24rpx; color: #8A93A2; margin-top: 8rpx; line-height: 1.6; }
+.done-title { font-size: 38rpx; font-weight: 800; color: #202634; margin-top: 12rpx; }
+.done-sub { font-size: 24rpx; color: #7D8799; margin-top: 10rpx; line-height: 1.6; }
+.done-actions { display: flex; gap: 18rpx; margin-top: 32rpx; }
 .done-btn {
-  margin: 32rpx auto 0;
-  display: inline-block;
-  background: linear-gradient(90deg, #FF6FA5, #FF6B4A);
+  flex: 1;
+  background: linear-gradient(120deg, #FF6B8B, #FF704E);
   color: #fff;
   font-size: 28rpx;
   font-weight: 800;
-  padding: 22rpx 56rpx;
-  border-radius: 28rpx;
+  padding: 24rpx 0;
+  border-radius: 999rpx;
+}
+.done-btn.ghost {
+  background: #F1F5F9;
+  color: #4B5567;
 }

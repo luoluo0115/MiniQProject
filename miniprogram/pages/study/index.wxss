@@ -1,0 +1,66 @@
+.topbar { padding: 20rpx 32rpx 8rpx; }
+.topbar .h1 { font-size: 44rpx; font-weight: 800; color: #202634; margin-top: 4rpx; }
+.topbar .sub { font-size: 24rpx; color: #7D8799; margin-top: 6rpx; }
+
+/* 续读卡 */
+.resume {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 30rpx;
+  background: linear-gradient(135deg, #3D8BFF, #6AA9FF);
+  border-radius: 28rpx;
+  box-shadow: 0 16rpx 30rpx rgba(61, 139, 255, .28);
+}
+.resume-tag {
+  display: inline-block;
+  font-size: 20rpx;
+  font-weight: 800;
+  color: #fff;
+  background: rgba(255, 255, 255, .24);
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+}
+.resume-title { font-size: 34rpx; font-weight: 800; color: #fff; margin-top: 12rpx; }
+.resume-meta { font-size: 22rpx; color: rgba(255, 255, 255, .82); margin-top: 6rpx; }
+.resume-cover { font-size: 76rpx; }
+
+/* 四大支柱 2×2 */
+.pillars { display: grid; grid-template-columns: 1fr 1fr; gap: 22rpx; }
+.pillar {
+  padding: 28rpx 24rpx;
+  border-radius: 28rpx;
+  background: #fff;
+  box-shadow: 0 8rpx 22rpx rgba(42, 72, 126, .08);
+}
+.pillar-ico {
+  width: 108rpx;
+  height: 108rpx;
+  border-radius: 26rpx;
+  display: grid;
+  place-items: center;
+  margin-bottom: 14rpx;
+}
+.p-sky   .pillar-ico { background: linear-gradient(135deg, #EAF3FF, #D5E8FF); }
+.p-grape .pillar-ico { background: linear-gradient(135deg, #EFECFF, #E2DBFF); }
+.p-pinky .pillar-ico { background: linear-gradient(135deg, #FFEAF0, #FFD9E3); }
+.p-grass .pillar-ico { background: linear-gradient(135deg, #E5F8EE, #D2F1E0); }
+.pillar-title { font-size: 30rpx; font-weight: 800; color: #202634; }
+.pillar-sub { font-size: 22rpx; color: #7D8799; margin-top: 4rpx; }
+
+/* 更多能力 */
+.more-head { font-size: 26rpx; font-weight: 800; color: #202634; margin-bottom: 16rpx; }
+.more-row { display: flex; gap: 18rpx; }
+.more-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 22rpx 8rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  box-shadow: 0 6rpx 16rpx rgba(42, 72, 126, .06);
+}
+.more-emoji { font-size: 40rpx; }
+.more-label { font-size: 22rpx; font-weight: 700; color: #4B5567; }

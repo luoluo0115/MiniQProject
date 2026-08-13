@@ -1,0 +1,49 @@
+<!-- 学习中心 hub · 四大支柱入口 -->
+<view class="q-page">
+  <view class="topbar" style="padding-top:{{statusBarH}}px">
+    <view class="eyebrow">STUDY CENTER</view>
+    <view class="h1">学习中心</view>
+    <view class="sub">今天想点亮哪一颗英语星球？</view>
+  </view>
+
+  <!-- 续读卡 -->
+  <view class="section">
+    <view class="resume card" hover-class="pressed" bindtap="onResume">
+      <view class="resume-left">
+        <view class="resume-tag">继续阅读</view>
+        <view class="resume-title">{{resume.title}}</view>
+        <view class="resume-meta">上次读到第 {{resume.page}} 页 · Level {{resume.level}}</view>
+      </view>
+      <view class="resume-cover">{{resume.cover}}</view>
+    </view>
+  </view>
+
+  <!-- 四大支柱 -->
+  <view class="section pillars">
+    <view
+      class="pillar {{item.cls}}"
+      wx:for="{{pillars}}"
+      wx:key="key"
+      hover-class="pressed"
+      data-url="{{item.url}}"
+      bindtap="onPillar">
+      <view class="pillar-ico"><mascot type="{{item.mascot}}" style="width:100%;height:100%" /></view>
+      <view class="pillar-title">{{item.title}}</view>
+      <view class="pillar-sub">{{item.sub}}</view>
+    </view>
+  </view>
+
+  <!-- 更多能力 -->
+  <view class="section">
+    <view class="more-head">更多能力</view>
+    <view class="more-row">
+      <view class="more-item" wx:for="{{extras}}" wx:key="key" hover-class="pressed" data-url="{{item.url}}" data-tip="{{item.tip}}" bindtap="onExtra">
+        <text class="more-emoji">{{item.emoji}}</text>
+        <text class="more-label">{{item.label}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="tab-spacer"></view>
+  <tabbar active="study" />
+</view>

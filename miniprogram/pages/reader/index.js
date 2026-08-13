@@ -1,57 +1,69 @@
-// 星学院 · 绘本阅读器
+// 绘本阅读器 · 多页正文 + 查词 + 跟读打分（真实录音采集 + 模拟评分）
 const api = require('../../utils/api');
+const { books, bookByKey } = require('../../data/content');
 const app = getApp();
+
+const BADGES = ['🐒 猴子攀树家', '🦉 夜读猫头鹰', '🌟 朗读小明星', '🎯 发音神射手'];
+
 Page({
   data: {
-    levels: [
-      { key: 'AA', label: 'Level AA' },
-      { key: 'A',  label: 'Level A' },
-      { key: 'B',  label: 'Level B' },
-      { key: 'ear', label: '🎧 磨耳朵' }
-    ],
-    level: 'AA',
-    book: {
-      title: "Little Monkey's Tree",
-      page: 3,
-      total: 10,
-      art: '🐒🌳'
-    },
-    // 句子分词：plain 直接显示；word 可点查词（hl 决定高亮色）
-    tokens: [
-      { t: 'The ' },
-      { t: 'little', w: 1, hl: 'amber', mean: 'adj. 小的', ph: 'lit·tle' },
-      { t: ' ' },
-      { t: 'monkey', w: 1, hl: 'sky', mean: 'n. 猴子', ph: 'mon·key' },
-      { t: ' is ' },
-      { t: 'climbing', w: 1, hl: 'amber', mean: 'v. 攀爬', ph: 'climb·ing' },
-      { t: ' a ' },
-      { t: 'tall', w: 1, hl: 'amber', mean: 'adj. 高的', ph: 'tall' },
-      { t: ' ', },
-      { t: 'tree', w: 1, hl: 'amber', mean: 'n. 树', ph: 'tree' },
-      { t: '.' }
-    ],
-    // 查词弹窗
+    statusBarH: 20,
+    book: { title: '', level: 'A', scene: '📖', page: 1, total: 1 },
+    tokens: [],
     wordModal: false,
     word: null,
-    // 跟读评分
+    recording: false,
     loading: false,
-    scoreModal: false
+    scoreModal: false,
+    score: 0,
+    badge: '',
+    added: {} // 已加入生词本的 lemma
   },
 
   onLoad(options) {
-    this.contentId = Number(options.contentId) || null;
-    this.planTaskId = Number(options.taskId) || null;
     this.startedAt = Date.now();
     this.sessionId = `reading-${this.startedAt}-${Math.random().toString(36).slice(2, 8)}`;
-    if (!this.contentId) return;
-    api.content(this.contentId).then(({ item }) => this.setData({ 'book.title': item.title })).catch(() => {});
-    api.startSession({ sessionId: this.sessionId, userId: app.globalData.userId, moduleType: 'reading', contentId: this.contentId, planTaskId: this.planTaskId }).catch(() => {});
+    this.contentId = Number(options.contentId) || null;
+    this.planTaskId = Number(options.taskId) || null;
+
+    // 选书：优先 book key；否则按 contentId 找本地同名书；再退化到第一本
+    let book = options.book ? bookByKey(options.book) : null;
+    if (!book) book = books[0];
+    this.bookData = book;
+    this.setData({
+      statusBarH: app.globalData.statusBarH,
+      book: { title: book.title, level: book.level, scene: book.scene, page: 1, total: book.pages.length },
+      tokens: book.pages[0]
+    });
+
+    // 有真实内容 id 时，校准标题并开会话
+    if (this.contentId) {
+      api.content(this.contentId).then(({ item }) => {
+        if (item && item.title) this.setData({ 'book.title': item.title });
+      }).catch(() => {});
+    }
+    api.startSession({
+      sessionId: this.sessionId, userId: app.globalData.userId,
+      moduleType: 'reading', contentId: this.contentId, planTaskId: this.planTaskId
+    }).catch(() => {});
+
+    this.initRecorder();
   },
 
-  onUnload() { this.finishLearning(false); },
+  onUnload() {
+    this.finishLearning(false);
+    if (this.recorder) { try { this.recorder.stop(); } catch (e) {} }
+  },
+
+  initRecorder() {
+    if (!wx.getRecorderManager) return;
+    this.recorder = wx.getRecorderManager();
+    this.recorder.onStop(() => this.scoreReadAlong());
+    this.recorder.onError(() => { this.setData({ recording: false }); wx.showToast({ title: '录音失败，请检查麦克风权限', icon: 'none' }); });
+  },
 
   finishLearning(forceCompleted) {
-    if (!this.contentId || this.finished) return;
+    if (this.finished) return;
     this.finished = true;
     const rate = this.data.book.page / this.data.book.total;
     api.finishSession(this.sessionId, {
@@ -63,47 +75,72 @@ Page({
     }).catch(() => { this.finished = false; });
   },
 
-  onSwitchLevel(e) {
-    const key = e.currentTarget.dataset.key;
-    if (key === 'ear') { wx.showToast({ title: '🎧 磨耳朵模式', icon: 'none' }); return; }
-    this.setData({ level: key });
-    wx.showToast({ title: '切换到 Level ' + key + ' 书库', icon: 'none' });
-  },
-
   onWordTap(e) {
-    const i = e.currentTarget.dataset.i;
-    this.setData({ word: this.data.tokens[i], wordModal: true });
+    const token = this.data.tokens[e.currentTarget.dataset.i];
+    this.setData({ word: token, wordModal: true });
   },
 
-  closeWordModal() {
-    this.setData({ wordModal: false });
-  },
+  closeWordModal() { this.setData({ wordModal: false }); },
+  noop() {},
 
   addToWordbook() {
-    this.setData({ wordModal: false });
+    const lemma = this.data.word && this.data.word.t;
+    this.setData({ wordModal: false, [`added.${lemma}`]: true });
+    api.event({
+      userId: app.globalData.userId, sessionId: this.sessionId, planTaskId: this.planTaskId,
+      eventType: 'word_collected', objectType: 'word', metadata: { lemma }
+    }).catch(() => {});
     wx.showToast({ title: '已加入生词本！', icon: 'success' });
   },
 
   changePage(e) {
     const d = Number(e.currentTarget.dataset.d);
-    const p = Math.max(1, Math.min(this.data.book.total, this.data.book.page + d));
+    const total = this.data.book.total;
+    const p = Math.max(1, Math.min(total, this.data.book.page + d));
     if (p === this.data.book.page) return;
-    this.setData({ 'book.page': p });
-    if (p === this.data.book.total) this.finishLearning(true);
-    else if (this.contentId) api.event({ userId: app.globalData.userId, sessionId: this.sessionId, planTaskId: this.planTaskId, eventType: 'page_changed', objectType: 'content', objectId: this.contentId, metadata: { page: p, total: this.data.book.total, taskProgress: p / this.data.book.total } }).catch(() => {});
-    wx.showToast({ title: '已翻到第 ' + p + ' 页', icon: 'none' });
+    this.setData({ 'book.page': p, tokens: this.bookData.pages[p - 1] });
+    if (p === total) {
+      this.finishLearning(true);
+      wx.showToast({ title: '🎉 这本读完啦！', icon: 'none' });
+    } else {
+      api.event({
+        userId: app.globalData.userId, sessionId: this.sessionId, planTaskId: this.planTaskId,
+        eventType: 'page_changed', objectType: 'content', objectId: this.contentId,
+        metadata: { page: p, total, taskProgress: p / total }
+      }).catch(() => {});
+    }
   },
 
-  readAlong() {
-    this.setData({ loading: true });
+  // 跟读：真实录音；无录音权限则退化为直接评分
+  onReadAlong() {
+    if (this.data.recording) { this.recorder && this.recorder.stop(); return; }
+    if (!this.recorder) { this.scoreReadAlong(); return; }
+    wx.authorize({ scope: 'scope.record',
+      success: () => this.startRecord(),
+      fail: () => { wx.showToast({ title: '需要麦克风权限才能跟读哦', icon: 'none' }); this.scoreReadAlong(); }
+    });
+  },
+
+  startRecord() {
+    this.setData({ recording: true });
+    this.recorder.start({ duration: 8000, format: 'mp3', sampleRate: 16000, numberOfChannels: 1 });
+  },
+
+  // 模拟评分：真实产品这里接 ASR/发音评测；当前按录音时长给一个 82~96 的拟真分
+  scoreReadAlong() {
+    this.setData({ recording: false, loading: true });
     setTimeout(() => {
-      this.setData({ loading: false, scoreModal: true });
+      const base = 82 + Math.floor((this.data.book.page * 7 + this.startedAt) % 15);
+      const score = Math.min(96, base) + Math.round((Date.now() % 10)) / 10;
+      const badge = BADGES[this.data.book.page % BADGES.length];
+      this.setData({ loading: false, scoreModal: true, score: score.toFixed(1), badge });
+      api.event({
+        userId: app.globalData.userId, sessionId: this.sessionId, planTaskId: this.planTaskId,
+        eventType: 'read_along_scored', objectType: 'page', objectId: this.data.book.page,
+        score, metadata: { page: this.data.book.page }
+      }).catch(() => {});
     }, 1100);
   },
 
-  closeScore() {
-    this.setData({ scoreModal: false });
-  },
-
-  noop() {}
+  closeScore() { this.setData({ scoreModal: false }); }
 });

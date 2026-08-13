@@ -1,0 +1,37 @@
+<!-- 口语场景选择 -->
+<view class="q-page">
+  <navbar title="小Q 口语陪练" />
+
+  <!-- 伙伴问候卡 -->
+  <view class="section">
+    <view class="partner-card">
+      <view class="partner-ava"><mascot type="partner" face="happy" style="width:100%;height:100%" /></view>
+      <view class="partner-txt">
+        <view class="partner-name">向导 Sam</view>
+        <view class="partner-hi">挑一个场景，我们边玩边练英语口语吧！</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 场景网格 -->
+  <view class="section grid">
+    <view
+      class="sc {{item.unlocked ? '' : 'sc-lock'}}"
+      wx:for="{{scenes}}"
+      wx:key="key"
+      hover-class="{{item.unlocked ? 'pressed' : ''}}"
+      data-key="{{item.key}}"
+      data-unlocked="{{item.unlocked}}"
+      bindtap="onPick">
+      <view class="sc-cover">{{item.cover}}</view>
+      <view class="sc-title">{{item.title}}</view>
+      <view class="sc-meta">
+        <text class="sc-lv">{{item.level}}</text>
+        <text class="sc-min">{{item.minutes}}′</text>
+      </view>
+      <view wx:if="{{!item.unlocked}}" class="sc-badge">🔒 待解锁</view>
+    </view>
+  </view>
+
+  <view class="tab-spacer"></view>
+</view>

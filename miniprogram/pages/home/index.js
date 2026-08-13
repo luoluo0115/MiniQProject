@@ -10,11 +10,11 @@ Page({
     heroSrc: '',
     // 圆形图标九宫格（type 对应 mascot 组件 / 招牌道具；page 有值则跳转）
     grid: [
-      { type: 'read',    label: '阅读打卡', page: '/pages/reader/index', tip: '' },
-      { type: 'library', label: '绘本馆',   page: '/pages/reader/index', tip: '' },
+      { type: 'read',    label: '阅读打卡', page: '/pages/library/index', tip: '' },
+      { type: 'library', label: '绘本馆',   page: '/pages/library/index', tip: '' },
       { type: 'vocab',   label: '背单词',   page: '/pages/vocab/index',  tip: '' },
-      { type: 'ai',      label: 'AI口语角', page: '/pages/ai/index', tip: '' },
-      { type: 'ear',     label: '磨耳朵',   tip: '🎧 磨耳朵：跟读 / 盲听 / 逐句复读' },
+      { type: 'ai',      label: 'AI口语角', page: '/pages/scenes/index', tip: '' },
+      { type: 'ear',     label: '磨耳朵',   page: '/pages/listening/index', tip: '' },
       { type: 'test',    label: '英语测评', tip: '📝 英语测评：AI 定级测试' },
       { type: 'invite',  label: '邀请好友', tip: '👬 邀请好友得双倍奖学金' }
     ],
@@ -68,7 +68,9 @@ Page({
   },
 
   onStartLearn() {
-    wx.navigateTo({ url: '/pages/quiz/index' });
+    const first = (this.data.plans || []).find(p => p.page);
+    if (first) { wx.navigateTo({ url: first.page }); return; }
+    wx.reLaunch({ url: '/pages/study/index' });
   },
 
   onCardTap(e) {
@@ -84,17 +86,5 @@ Page({
 
   onBrandTap() {
     wx.showToast({ title: '🎒 品牌专区：正版 IP 好物', icon: 'none' });
-  },
-
-  onTabTap(e) {
-    const tab = e.currentTarget.dataset.tab;
-    if (tab === 'home') return;
-    if (tab === 'academy') { wx.navigateTo({ url: '/pages/reader/index' }); return; }
-    if (tab === 'me') { wx.navigateTo({ url: '/pages/me/index' }); return; }
-    const map = {
-      code: '📷 出示会员码核销',
-      shop: '🛒 会员商城开发中'
-    };
-    wx.showToast({ title: map[tab], icon: 'none' });
   }
 });

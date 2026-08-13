@@ -1,0 +1,27 @@
+.group-title { font-size: 24rpx; font-weight: 800; color: #7D8799; margin-bottom: 12rpx; padding-left: 8rpx; }
+.card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 6rpx 28rpx;
+  box-shadow: 0 8rpx 20rpx rgba(42, 72, 126, .06);
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 0;
+  border-bottom: 1rpx solid #F1F4FA;
+}
+.row:last-child { border-bottom: none; }
+.row-label { font-size: 28rpx; font-weight: 600; color: #202634; }
+.row-val { font-size: 26rpx; color: #7D8799; font-weight: 600; }
+.slider { margin: 0 0 20rpx; }
+
+.pressed { opacity: .6; }
+
+.brand-foot {
+  text-align: center;
+  font-size: 22rpx;
+  color: #A8B1C2;
+  margin-top: 40rpx;
+}
